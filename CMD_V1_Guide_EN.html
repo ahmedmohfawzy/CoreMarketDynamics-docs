@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Market Dynamics V1 — Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<style>
+:root {
+  --bg: #0b1120; --card: rgba(17,24,39,0.7); --card-solid: #111827;
+  --border: rgba(255,255,255,0.08); --border-hover: rgba(255,255,255,0.15);
+  --green: #34d399; --green-dim: rgba(52,211,153,0.15);
+  --red: #f87171; --red-dim: rgba(248,113,113,0.15);
+  --blue: #60a5fa; --blue-dim: rgba(96,165,250,0.15);
+  --orange: #fbbf24; --orange-dim: rgba(251,191,36,0.15);
+  --yellow: #facc15; --cyan: #22d3ee;
+  --text: #e2e8f0; --muted: #94a3b8; --accent: #818cf8;
+  --sidebar-w: 260px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+
+/* ══ BACKGROUND ══ */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(600px at 15% 25%,rgba(52,211,153,.06),transparent 70%),
+             radial-gradient(500px at 85% 75%,rgba(96,165,250,.05),transparent 70%)}
+
+/* ══ LAYOUT ══ */
+.page{display:flex;min-height:100vh;position:relative;z-index:1}
+.main{flex:1;max-width:900px;margin:0 auto;padding:40px 32px 80px;margin-left:calc(var(--sidebar-w) + 40px)}
+
+/* ══ SIDEBAR ══ */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-w);height:100vh;
+  background:rgba(17,24,39,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-right:1px solid var(--border);padding:24px 16px;overflow-y:auto;z-index:100;transition:transform .3s}
+.sidebar h3{font-size:.85em;color:var(--green);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border);
+  text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+.sidebar a{color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:8px;
+  padding:7px 12px;margin:2px 0;border-radius:8px;font-size:.8em;font-weight:500;
+  transition:all .25s;border-left:3px solid transparent}
+.sidebar a:hover{color:var(--text);background:rgba(129,140,248,.08)}
+.sidebar a.active{color:var(--green);background:rgba(52,211,153,.08);border-left-color:var(--green);font-weight:700}
+.sidebar a i{font-size:.9em;width:18px;text-align:center}
+.sidebar .lang-switch{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);text-align:center}
+.sidebar .lang-btn{display:inline-block;padding:6px 18px;border-radius:8px;font-size:.8em;font-weight:600;
+  text-decoration:none;color:var(--green);background:var(--green-dim);border:1px solid rgba(52,211,153,.3);transition:all .3s}
+.sidebar .lang-btn:hover{background:rgba(52,211,153,.25);transform:translateY(-1px)}
+
+/* Mobile */
+.sidebar-toggle{display:none;position:fixed;top:16px;left:16px;width:44px;height:44px;border-radius:12px;
+  background:rgba(17,24,39,.8);backdrop-filter:blur(12px);border:1px solid var(--border);
+  color:var(--green);font-size:1.2em;cursor:pointer;z-index:200}
+@media(max-width:960px){
+  .sidebar{transform:translateX(-100%);box-shadow:8px 0 30px rgba(0,0,0,.4)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-toggle{display:flex;align-items:center;justify-content:center}
+  .main{margin-left:0!important;padding:70px 16px 60px}
+}
+
+/* ══ PROGRESS BAR ══ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:999;border-radius:0 2px 2px 0;
+  background:linear-gradient(90deg,var(--green),var(--cyan),var(--accent));
+  box-shadow:0 0 12px rgba(52,211,153,.5)}
+
+/* ══ HERO ══ */
+.hero{background:linear-gradient(135deg,rgba(52,211,153,.04),transparent 50%,rgba(96,165,250,.04)),var(--card);
+  backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:20px;
+  padding:56px 44px;text-align:center;margin-bottom:44px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(circle at 30% 50%,rgba(52,211,153,.06),transparent 50%),
+             radial-gradient(circle at 70% 80%,rgba(96,165,250,.05),transparent 40%);
+  animation:heroGlow 8s ease-in-out infinite alternate}
+@keyframes heroGlow{0%{opacity:.6;transform:scale(1)}100%{opacity:1;transform:scale(1.05)}}
+.hero h1{font-size:2.8em;font-weight:900;margin-bottom:10px;position:relative;
+  background:linear-gradient(135deg,var(--green),#10b981);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text}
+.hero .sub{font-size:1.1em;color:var(--accent);position:relative;font-weight:500}
+.hero .ver{font-size:.9em;color:var(--muted);margin-top:8px;position:relative}
+
+/* ══ SECTIONS ══ */
+h2{font-size:1.5em;color:var(--green);margin:48px 0 22px;padding-bottom:12px;
+  border-bottom:2px solid var(--border);display:flex;align-items:center;gap:10px;
+  scroll-margin-top:24px;font-weight:800;letter-spacing:-.3px}
+h3{font-size:1.15em;color:var(--accent);margin:22px 0 12px;font-weight:700}
+
+/* ══ CARDS ══ */
+.card{background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--border);
+  border-radius:16px;padding:24px;margin:16px 0;position:relative;overflow:hidden;
+  transition:all .35s ease}
+.card:hover{transform:translateY(-2px);border-color:var(--border-hover)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--green),var(--accent),transparent);opacity:0;transition:opacity .5s}
+.card:hover::before{opacity:1}
+.card.green{border-left:4px solid var(--green)}
+.card.green:hover{box-shadow:0 0 20px rgba(52,211,153,.12), 0 0 40px rgba(52,211,153,.05);border-color:rgba(52,211,153,.3)}
+.card.red{border-left:4px solid var(--red)}
+.card.red:hover{box-shadow:0 0 20px rgba(248,113,113,.12), 0 0 40px rgba(248,113,113,.05);border-color:rgba(248,113,113,.3)}
+.card.blue{border-left:4px solid var(--blue)}
+.card.blue:hover{box-shadow:0 0 20px rgba(96,165,250,.12), 0 0 40px rgba(96,165,250,.05);border-color:rgba(96,165,250,.3)}
+.card.orange{border-left:4px solid var(--orange)}
+.card.orange:hover{box-shadow:0 0 20px rgba(251,191,36,.12), 0 0 40px rgba(251,191,36,.05);border-color:rgba(251,191,36,.3)}
+
+/* ══ TABLES ══ */
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9em;border-radius:12px;overflow:hidden}
+th{background:rgba(17,24,39,.9);color:var(--accent);padding:12px 14px;text-align:left;
+  border-bottom:2px solid var(--border);font-weight:600;font-size:.85em;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);transition:background .2s ease}
+tbody tr{transition:background .25s ease, transform .15s ease}
+tbody tr:hover{background:rgba(129,140,248,.06)}
+tbody tr:hover td{border-bottom-color:rgba(129,140,248,.15)}
+tbody tr:nth-child(even){background:rgba(17,24,39,.3)}
+tbody tr:nth-child(even):hover{background:rgba(129,140,248,.08)}
+
+/* ══ BADGES ══ */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.82em;font-weight:600}
+.badge.green{background:var(--green-dim);color:var(--green)}
+.badge.red{background:var(--red-dim);color:var(--red)}
+.badge.orange{background:var(--orange-dim);color:var(--orange)}
+.badge.blue{background:var(--blue-dim);color:var(--blue)}
+.badge.yellow{background:rgba(250,204,21,.12);color:var(--yellow)}
+
+/* ══ MISC ══ */
+ul,ol{padding-left:24px;margin:8px 0} li{margin:4px 0}
+strong{color:var(--green)} code{background:rgba(129,140,248,.08);padding:2px 8px;border-radius:6px;font-size:.85em}
+.img-box{text-align:center;margin:20px 0}
+.img-box img{max-width:600px;width:100%;border-radius:16px;border:1px solid var(--border)}
+.img-cap{font-size:.82em;color:var(--muted);margin-top:8px}
+
+/* ══ BACK TO TOP ══ */
+.btt{position:fixed;bottom:28px;right:28px;width:48px;height:48px;border-radius:50%;
+  background:var(--card);backdrop-filter:blur(14px);border:1px solid var(--border);
+  color:var(--green);font-size:1.1em;cursor:pointer;z-index:200;
+  opacity:0;transform:translateY(20px);transition:all .4s;
+  display:flex;align-items:center;justify-content:center}
+.btt.show{opacity:1;transform:translateY(0)}
+.btt:hover{background:rgba(52,211,153,.15);border-color:var(--green);transform:translateY(-4px)}
+
+/* ══ TABS ══ */
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab-btn{padding:10px 20px;border:1px solid var(--border);background:var(--card-solid);color:var(--muted);
+  border-radius:12px 12px 0 0;cursor:pointer;font-family:inherit;font-size:.85em;font-weight:600;
+  transition:all .25s;border-bottom:none}
+.tab-btn:hover{color:var(--text);background:rgba(129,140,248,.08)}
+.tab-btn.active{color:var(--green);background:var(--card-solid);border-color:var(--green);border-bottom:2px solid var(--card-solid)}
+.tab-panel{display:none;border:1px solid var(--border);border-radius:0 0 16px 16px;
+  border-top:1px solid var(--green);background:var(--card-solid);padding:4px;
+  animation:tabFadeIn .3s ease}
+.tab-panel.active{display:block}
+@keyframes tabFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.scenario{background:var(--card-solid);border:1px solid var(--border);border-radius:16px;padding:20px;margin:14px 0;font-size:.9em}
+.scenario .title{font-size:1.05em;font-weight:700;margin-bottom:10px}
+
+/* ══ RULES ══ */
+.rules{counter-reset:rule}
+.rule{background:var(--card-solid);border:1px solid var(--border);border-radius:12px;padding:12px 18px;margin:8px 0;
+  display:flex;align-items:center;gap:12px;transition:all .25s}
+.rule:hover{transform:translateX(4px);box-shadow:0 0 20px rgba(52,211,153,.08)}
+.rule::before{counter-increment:rule;content:counter(rule);background:var(--green);color:var(--bg);
+  width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.82em;flex-shrink:0}
+.rule.dont::before{background:var(--red)}
+.rule.dont:hover{box-shadow:0 0 20px rgba(248,113,113,.08)}
+
+/* ══ DEV CARD ══ */
+.dev{background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:20px;
+  padding:40px;margin:50px 0 30px;text-align:center;position:relative;overflow:hidden}
+.dev::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(52,211,153,.03),rgba(96,165,250,.03));pointer-events:none}
+.dev .avatar{width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--accent));
+  display:flex;align-items:center;justify-content:center;font-size:2em;font-weight:900;color:var(--bg);
+  margin:0 auto 14px;position:relative;animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.35)}50%{box-shadow:0 0 0 14px rgba(52,211,153,0)}}
+.dev .name{font-size:1.4em;font-weight:900;color:var(--green);position:relative}
+.dev .title{font-size:.88em;color:var(--accent);margin-bottom:14px;position:relative}
+.dev .bio{font-size:.9em;color:var(--text);max-width:650px;margin:0 auto 18px;position:relative;line-height:1.9}
+.skills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0;position:relative}
+.skill{padding:5px 14px;border-radius:20px;font-size:.8em;font-weight:600;
+  background:rgba(129,140,248,.1);color:var(--accent);border:1px solid rgba(129,140,248,.2);transition:all .25s}
+.skill:hover{background:var(--green-dim);color:var(--green);border-color:rgba(52,211,153,.3);transform:translateY(-2px)}
+.contact{display:flex;justify-content:center;gap:12px;margin-top:20px;flex-wrap:wrap;position:relative}
+.contact a{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;
+  text-decoration:none;font-size:.88em;font-weight:600;transition:all .3s}
+.btn-wa{background:rgba(37,211,102,.1);color:#25d366;border:1px solid rgba(37,211,102,.25)}
+.btn-wa:hover{background:rgba(37,211,102,.2);transform:translateY(-2px)}
+.btn-em{background:rgba(129,140,248,.1);color:var(--accent);border:1px solid rgba(129,140,248,.25)}
+.btn-em:hover{background:rgba(129,140,248,.2);transform:translateY(-2px)}
+
+/* ══ ANTI-COPY + ANTI-PRINT ══ */
+body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+@media print{body::before{content:'⛔ Printing is disabled — Core Market Dynamics V1';display:flex;align-items:center;justify-content:center;position:fixed;inset:0;background:#fff;color:#000;font-size:2em;font-weight:900;z-index:99999}.page,.sidebar,.btt,.progress{display:none!important}}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+<button class="btt no-print" id="btt"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar" id="sidebar">
+  <h3><i class="fa-solid fa-book-open"></i> Guide Contents</h3>
+  <a href="#overview" data-s="overview"><i class="fa-solid fa-eye"></i> 1. Overview</a>
+  <a href="#signals" data-s="signals"><i class="fa-solid fa-chart-line"></i> 2. Chart Signals</a>
+  <a href="#timeframes" data-s="timeframes"><i class="fa-regular fa-clock"></i> 3. Timeframes</a>
+  <a href="#dashboard" data-s="dashboard"><i class="fa-solid fa-gauge-high"></i> 4. Dashboard</a>
+  <a href="#score" data-s="score"><i class="fa-solid fa-star-half-stroke"></i> 5. Score System</a>
+  <a href="#grades" data-s="grades"><i class="fa-solid fa-ranking-star"></i> 6. Signal Grades</a>
+  <a href="#confluence" data-s="confluence"><i class="fa-solid fa-filter"></i> 7. Confluence</a>
+  <a href="#regime" data-s="regime"><i class="fa-solid fa-arrows-spin"></i> 8. Market Regime</a>
+  <a href="#wyckoff" data-s="wyckoff"><i class="fa-solid fa-scale-balanced"></i> 9. Wyckoff Filter</a>
+  <a href="#backtester" data-s="backtester"><i class="fa-solid fa-chart-column"></i> 10. Backtester</a>
+  <a href="#risk" data-s="risk"><i class="fa-solid fa-shield-halved"></i> 11. Risk Manager</a>
+  <a href="#riskv2" data-s="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ Risk V2 Advanced</a>
+  <a href="#session" data-s="session"><i class="fa-regular fa-calendar-check"></i> 12. Session Shield</a>
+  <a href="#orderflow" data-s="orderflow"><i class="fa-solid fa-arrow-right-arrow-left"></i> 13. Order Flow</a>
+  <a href="#zones" data-s="zones"><i class="fa-solid fa-layer-group"></i> 14. Zones</a>
+  <a href="#scanner" data-s="scanner"><i class="fa-solid fa-satellite-dish"></i> 15. Scanner</a>
+  <a href="#scenarios" data-s="scenarios"><i class="fa-solid fa-book-open"></i> 16. Scenarios</a>
+  <a href="#tips" data-s="tips"><i class="fa-solid fa-lightbulb"></i> 17. Pro Tips</a>
+  <a href="#rules" data-s="rules"><i class="fa-solid fa-gavel"></i> 18. Golden Rules</a>
+  <a href="#settings" data-s="settings"><i class="fa-solid fa-sliders"></i> 19. Settings</a>
+  <a href="#dev" data-s="dev"><i class="fa-solid fa-user-tie"></i> Developer</a>
+  <div class="lang-switch">
+    <a href="CMD_V1_Guide_AR.html" class="lang-btn">🇪🇬 العربية</a>
+  </div>
+</nav>
+<button class="sidebar-toggle no-print" id="toggler"><i class="fa-solid fa-bars" id="togIcon"></i></button>
+
+<div class="page">
+<div class="main">
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <h1><i class="fa-solid fa-microchip" style="margin-right:10px;font-size:.8em"></i>Core Market Dynamics V1</h1>
+  <div class="sub">Algorithmic Trading System + Risk Manager V2</div>
+  <div class="ver">CMD V1 — SMC + Wyckoff + AVWAP + 10 Advanced Risk Tools</div>
+  <div class="ver">Developed by Ahmed Fawzy | 2026</div>
+</div>
+
+<!-- ═══ 1. OVERVIEW ═══ -->
+<h2 id="overview"><i class="fa-solid fa-eye"></i> 1. Overview</h2>
+<p><strong>Core Market Dynamics V1</strong> is not just an indicator — it's a complete <strong>mini algorithmic trading system</strong> running inside TradingView. It combines Smart Money Concepts, Wyckoff volume analysis, AVWAP, Candle Patterns, and dynamic risk management in one tool.</p>
+
+<div class="card green">
+  <h3>🗂 System Files</h3>
+  <table>
+    <tr><th>File</th><th>Description</th><th>Size</th></tr>
+    <tr><td><code>CoreMarketDynamicsV1.pine</code></td><td>Main Indicator + Risk V2</td><td>~2400 lines</td></tr>
+    <tr><td><code>CMD_V1_Scanner.pine</code></td><td>20-Symbol Scanner</td><td>~590 lines</td></tr>
+  </table>
+</div>
+
+
+<!-- ═══ 2. CHART SIGNALS ═══ -->
+<div class="page-break"></div>
+<h2 id="signals"><i class="fa-solid fa-chart-line"></i> 2. Chart Signals & Labels</h2>
+<p>The indicator draws various labels and zones on the chart. Each has a specific color and meaning:</p>
+
+<div class="card green">
+  <h3>🏗️ Structure Signals</h3>
+  <table>
+    <tr><th>Label</th><th>Color</th><th>Meaning</th></tr>
+    <tr><td><code>CHoCH</code></td><td>🟢 Green dotted</td><td>Change of Character — potential reversal from bearish to bullish</td></tr>
+    <tr><td><code>CHoCH</code></td><td>🔴 Red dotted</td><td>Change of Character — reversal from bullish to bearish</td></tr>
+    <tr><td><code>BoS</code></td><td>🟢 Green solid</td><td>Break of Structure — uptrend continuation confirmed</td></tr>
+    <tr><td><code>BoS</code></td><td>🔴 Red solid</td><td>Break of Structure — downtrend continuation confirmed</td></tr>
+  </table>
+  <p style="margin-top:12px"><strong>When to use:</strong> CHoCH = early warning (reversal) | BoS = trend confirmation (stronger)</p>
+</div>
+
+<div class="card blue">
+  <h3>📦 Chart Zones</h3>
+  <table>
+    <tr><th>Zone</th><th>Color</th><th>Description</th></tr>
+    <tr><td>FVG (Fair Value Gap)</td><td>🔵 Blue</td><td>Untested price area — price tends to return and fill it</td></tr>
+    <tr><td>Demand Zone</td><td>🟢 Green</td><td>Last bearish candle before strong bullish move (institutional buying)</td></tr>
+    <tr><td>Supply Zone</td><td>🔴 Red</td><td>Last bullish candle before strong bearish move (institutional selling)</td></tr>
+    <tr><td>EMA 20 / EMA 50</td><td>🔵 / 🟡</td><td>Dynamic support/resistance (fast/slow)</td></tr>
+    <tr><td>SMA 200</td><td>⚪ White</td><td>Premium vs Discount separator</td></tr>
+    <tr><td>VWAP (optional)</td><td>⚪ Dotted</td><td>Volume-weighted average — true fair price of the day</td></tr>
+  </table>
+</div>
+
+<div class="card orange">
+  <h3>🔷 Other Signals</h3>
+  <table>
+    <tr><th>Label</th><th>Shape</th><th>Meaning</th></tr>
+    <tr><td>◂▸ Liquidity Grab</td><td>Small triangles</td><td>Market makers grabbing liquidity — fake breakout then reversal</td></tr>
+    <tr><td>◆ RSI Bull Divergence</td><td>Green diamond below</td><td>Price makes lower low but RSI makes higher low = hidden strength</td></tr>
+    <tr><td>◆ RSI Bear Divergence</td><td>Red diamond above</td><td>Price makes higher high but RSI makes lower high = hidden weakness</td></tr>
+    <tr><td>Confluence BUY ✓</td><td>Green label</td><td>Confirmed buy signal — all conditions met</td></tr>
+    <tr><td>Strong / Weak</td><td>Text at swing</td><td>Strong low = institutional support / Weak high = easy target</td></tr>
+  </table>
+</div>
+
+<div class="card blue">
+  <h3>📈 Auto Fibonacci Levels</h3>
+  <table>
+    <tr><th>Level</th><th>Color</th><th>Usage</th></tr>
+    <tr><td><code>0.382</code></td><td>🟢 Green</td><td>Shallow pullback — very strong trend</td></tr>
+    <tr><td><code>0.500</code></td><td>🟡 Yellow</td><td>Mid pullback — most common</td></tr>
+    <tr><td><code>0.618</code></td><td>🟠 Orange</td><td>Golden ratio — last chance entry before trend reversal</td></tr>
+  </table>
+  <p style="margin-top:12px"><strong>Tip:</strong> Enter at 0.618 + Confluence BUY = best possible entry!</p>
+</div>
+
+<!-- ═══ 3. TIMEFRAMES ═══ -->
+<div class="page-break"></div>
+<h2 id="timeframes"><i class="fa-regular fa-clock"></i> 3. Recommended Timeframes</h2>
+<p>Choosing the right timeframe is fundamental. The Egyptian market has unique characteristics (only 4.5 hours session).</p>
+
+<table>
+  <tr><th>Timeframe</th><th>Type</th><th>Pros</th><th>Cons</th><th>For</th></tr>
+  <tr><td><span class="badge orange">5-15 min</span></td><td>Scalping</td><td>Many opportunities</td><td>More false signals, high stress</td><td>Full-time pros</td></tr>
+  <tr><td><span class="badge green">★ 1 Hour</span></td><td><strong>RECOMMENDED</strong></td><td>Perfect balance — 4-5 candles/session</td><td>Fewer trades</td><td><strong>All EGX traders</strong></td></tr>
+  <tr><td><span class="badge blue">4 Hours</span></td><td>Swing</td><td>Very strong signals</td><td>Only 1 candle/session</td><td>Part-time traders</td></tr>
+  <tr><td><span class="badge yellow">Daily</span></td><td>Position</td><td>Strongest signals</td><td>1 trade/week</td><td>Long-term investors</td></tr>
+</table>
+
+<div class="card green">
+  <h3>★ Why 1H is Best for EGX?</h3>
+  <ul>
+    <li><strong>Short session (4.5 hours):</strong> 1H gives 4-5 candles/day — enough for informed decisions</li>
+    <li><strong>Session Shield works best:</strong> Trap Zone = 1 candle, Smart Money = 2-3 candles</li>
+    <li><strong>Squeeze Momentum accuracy:</strong> TTM Squeeze needs 20 bars minimum — 1H delivers in days</li>
+    <li><strong>Realistic Volume Percentile:</strong> 100 bars = 100 hours = ~25 trading days</li>
+    <li><strong>Cleaner FVG + S/D:</strong> Less noise, clearer zones</li>
+  </ul>
+</div>
+
+<div class="card orange">
+  <h3>⚠️ Suggested Settings per Timeframe</h3>
+  <table>
+    <tr><th>Setting</th><th>5-15min</th><th>1H</th><th>4H/Daily</th></tr>
+    <tr><td>Lookback</td><td>20</td><td>20 (default)</td><td>20-30</td></tr>
+    <tr><td>Confluence Min</td><td>4-5</td><td>3 (default)</td><td>2-3</td></tr>
+    <tr><td>Score Buy Threshold</td><td>7+</td><td>5 (default)</td><td>3-5</td></tr>
+    <tr><td>ATR SL Multiplier</td><td>1.5</td><td>2.0 (default)</td><td>2.5-3.0</td></tr>
+  </table>
+</div>
+
+<!-- ═══ 4. DASHBOARD ═══ -->
+<div class="page-break"></div>
+<h2 id="dashboard"><i class="fa-solid fa-gauge-high"></i> 4. Dashboard</h2>
+<p>The dashboard displays a comprehensive summary of all indicators and filters in a single table at the top-right of the chart.</p>
+<div class="img-box"><img src="img/dashboard.png" alt="Dashboard"><div class="img-cap">Dashboard Preview — Grade A+, Score 92, Confluence 5/9, Win Rate 80%</div></div>
+<div style="text-align:center;margin:-10px 0 16px;padding:6px 14px;border-radius:8px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);display:inline-block;font-size:.78em;color:var(--orange)"><i class="fa-solid fa-wand-magic-sparkles"></i> ⚠️ Images are AI-generated and may differ from the actual indicator appearance on TradingView</div>
+<table>
+  <tr><th>Row</th><th>Description</th></tr>
+  <tr><td>★ Verdict + Grade</td><td>Final verdict: STRONG BUY / BUY / LEAN BULL / NEUTRAL / SELL</td></tr>
+  <tr><td>★ Score</td><td>Core + Bonus = Total (max ±22)</td></tr>
+  <tr><td>★ Confluence</td><td>Factor count vs dynamic minimum</td></tr>
+  <tr><td>★ Momentum</td><td>Score trend: 📈 Rising / ➡️ Stable / 📉 Falling</td></tr>
+  <tr><td>★ Regime</td><td>Market type: Trending / Ranging / Volatile / Transitioning</td></tr>
+  <tr><td>★ RSI Div</td><td>RSI Divergence: Bull Div / Bear Div</td></tr>
+  <tr><td>★ Wyckoff</td><td>Distribution warning: ⚠️ Absorption</td></tr>
+  <tr><td>★ Win Rate</td><td>Last 5 signals success rate</td></tr>
+  <tr><td>★ Liquidity</td><td>Amihud ILLIQ: <span class="badge green">HIGH</span> / <span class="badge yellow">OK</span> / <span class="badge red">LOW</span></td></tr>
+  <tr><td>★ Money Flow</td><td>TWMA: 🟢 Positive (institutions buying) / 🔴 Negative</td></tr>
+  <tr><td>★ Order Flow</td><td>Wick analysis: 🟢 Buy Flow / 🔴 Sell Flow</td></tr>
+  <tr><td>Zone</td><td>Premium / Discount relative to SMA200</td></tr>
+  <tr><td>Int / Ext</td><td>Internal and external structure direction</td></tr>
+  <tr><td>Volume</td><td>Percentile: <span class="badge red">XH</span> (&gt;95%) / <span class="badge green">HIGH</span> (&gt;75%) / NORMAL / <span class="badge yellow">LOW</span></td></tr>
+  <tr><td>Squeeze</td><td>Bollinger + Keltner: Squeeze / Fired / Expand</td></tr>
+  <tr><td>Session</td><td>EGX zone: SMART / TRAP / CLOSE / <span class="badge orange">AUCTION</span></td></tr>
+</table>
+
+<div class="card green">
+  <h3>📊 Dashboard View Modes</h3>
+  <p>If the dashboard is too long for your screen, use <strong>Dashboard View</strong> — the very first setting in the indicator — to switch between 4 modes:</p>
+  <table>
+    <tr><th>Mode</th><th>Content</th><th>~Rows</th><th>When to Use</th></tr>
+    <tr><td><span class="badge green">Compact</span></td><td>Verdict + Score + Entry/SL/TP + Shares/R:R</td><td>~12</td><td>During execution — key numbers only</td></tr>
+    <tr><td><span class="badge blue">Analysis</span></td><td>Score + Confluence + Regime + all indicators (no Risk V2)</td><td>~20</td><td>Market analysis — before entry</td></tr>
+    <tr><td><span class="badge orange">Risk</span></td><td>Entry/SL/TP + Shares/R:R + Smart Entry + V2 Advanced</td><td>~25</td><td>Detailed risk management</td></tr>
+    <tr><td><span class="badge yellow">Full</span></td><td>Everything (default mode)</td><td>~40+</td><td>Large screens — all data visible</td></tr>
+  </table>
+  <p style="margin-top:10px"><strong>Tip:</strong> Start with <code>Analysis</code> to evaluate the stock, then switch to <code>Compact</code> during execution.</p>
+</div>
+
+<!-- ═══ 5. SCORE ═══ -->
+<div class="page-break"></div>
+<h2 id="score"><i class="fa-solid fa-star-half-stroke"></i> 5. Unified Score System</h2>
+
+<div class="card green">
+  <h3>Core Score (±12) — Shared with Scanner</h3>
+  <p>The core score is calculated from 8 fixed elements, identical between the indicator and scanner.</p>
+  <table>
+    <tr><th>Element</th><th>Value</th><th>Condition</th></tr>
+    <tr><td>1. Structure Direction</td><td>±2</td><td>Int+Ext Bullish = +2 / Bearish = -2</td></tr>
+    <tr><td>2. EMA Alignment (20/50)</td><td>±1</td><td>Price &gt; EMA20 &gt; EMA50 = +1</td></tr>
+    <tr><td>3. Volume Percentile</td><td>±1 (±2)</td><td>XH = +2, HIGH = +1, LOW = -1</td></tr>
+    <tr><td>↳ ★ Wyckoff Penalty</td><td><span class="badge red">-2</span></td><td>XH Volume + Doji Body = Distribution!</td></tr>
+    <tr><td>4. Squeeze Momentum</td><td>±1 (±2)</td><td>Fired Bullish = +2</td></tr>
+    <tr><td>5. Daily Trend (MTF)</td><td>±2</td><td>SMA50 &gt; SMA200 = +2</td></tr>
+    <tr><td>6. Session Shield</td><td>±1</td><td>Smart = +1, Trap = -1</td></tr>
+    <tr><td><strong>7. AVWAP [V1]</strong></td><td>±1</td><td>Price &gt; AVWAP = +1, &lt; AVWAP = -1</td></tr>
+    <tr><td><strong>8. Candle Patterns [V1]</strong></td><td>±1</td><td>Bull Engulf/Hammer = +1, Bear Engulf = -1</td></tr>
+  </table>
+</div>
+
+<div class="card blue">
+  <h3>Bonus Score (±8) — Indicator Only</h3>
+  <table>
+    <tr><th>Element</th><th>Value</th><th>Condition</th></tr>
+    <tr><td>B1. FVG Balance</td><td>±1</td><td>Bull FVGs &gt; Bear FVGs = +1</td></tr>
+    <tr><td>B2. Money Flow Fast</td><td>±1</td><td>Fast TWMA Bullish = +1</td></tr>
+    <tr><td>B3. Money Flow Slow</td><td>±1</td><td>Slow TWMA Bullish = +1</td></tr>
+    <tr><td>B4. S/D Balance</td><td>±1</td><td>Demand &gt; Supply = +1</td></tr>
+    <tr><td>B5. Trendline Break</td><td>±1</td><td>Resistance Break = +1</td></tr>
+    <tr><td>B6. Hit Rate Drift</td><td>±1</td><td>&gt; 60% positive bars = +1</td></tr>
+    <tr><td>B7. Order Flow</td><td>±1</td><td>Wick Buy Flow = +1, Sell Flow = -1</td></tr>
+    <tr><td>B8. Market Breadth</td><td>±1</td><td>EGX30 &gt; SMA50 = +1</td></tr>
+  </table>
+</div>
+
+<!-- ═══ 6. GRADES ═══ -->
+<h2 id="grades"><i class="fa-solid fa-ranking-star"></i> 6. Signal Grades</h2>
+<table>
+  <tr><th>Grade</th><th>Conditions</th><th>Meaning</th><th>Action</th></tr>
+  <tr><td><span class="badge green">A+</span></td><td>Score ≥ 7 + Conf ≥ 4</td><td>Strongest possible signal</td><td>Enter with full size</td></tr>
+  <tr><td><span class="badge green">A</span></td><td>Score ≥ 5 + Conf ≥ 3</td><td>Strong signal</td><td>Enter with 70-80%</td></tr>
+  <tr><td><span class="badge yellow">B</span></td><td>Score ≥ 3 + Conf ≥ 2</td><td>Moderate signal</td><td>Enter with 50% + tight SL</td></tr>
+  <tr><td><span class="badge orange">C</span></td><td>Score ≥ 1</td><td>Weak signal</td><td>Only with strict risk management</td></tr>
+  <tr><td><span class="badge red">D</span></td><td>Score ≤ -5 + Conf ≥ 3</td><td>Strong danger</td><td>Don't buy / consider selling</td></tr>
+</table>
+
+<!-- ═══ 7. CONFLUENCE ═══ -->
+<div class="page-break"></div>
+<h2 id="confluence"><i class="fa-solid fa-filter"></i> 7. Dynamic Confluence Filter</h2>
+<p>The minimum confluence threshold <strong>automatically adjusts</strong> based on market regime. In strong trends it requires fewer factors, in volatile conditions it becomes strict.</p>
+
+<div class="card green">
+  <h3>9 Confluence Factors (Indicator) / 8 (Scanner)</h3>
+  <table>
+    <tr><th>#</th><th>Factor</th><th>Condition</th></tr>
+    <tr><td>1</td><td>Structure Direction</td><td>Internal Structure = Bullish (HH/HL)</td></tr>
+    <tr><td>2</td><td>Price vs SMA200</td><td>Price above SMA200 (Discount zone)</td></tr>
+    <tr><td>3</td><td>Volume Level</td><td>Volume ≥ 75th Percentile + Qualified</td></tr>
+    <tr><td>4</td><td>Squeeze / EMA</td><td>Squeeze Fired Bullish or EMA Aligned</td></tr>
+    <tr><td>5</td><td>Session Zone</td><td>In Smart Money Zone (not Auction)</td></tr>
+    <tr><td>6</td><td>Daily Trend</td><td>SMA50 &gt; SMA200 on Daily</td></tr>
+    <tr><td>7</td><td>Order Flow</td><td>OF Rolling Score &gt; 2 or Buy Absorption</td></tr>
+    <tr><td>8</td><td>Market Breadth</td><td>Market index above SMA50</td></tr>
+    <tr><td><strong>9</strong></td><td><strong>AVWAP [V1]</strong></td><td>Price above AVWAP = Bullish</td></tr>
+  </table>
+</div>
+
+<div class="card orange">
+  <h3>★ Dynamic Threshold</h3>
+  <table>
+    <tr><th>Regime</th><th>Min Required</th><th>Reason</th></tr>
+    <tr><td>📈 TRENDING</td><td><span class="badge green">2</span> (lowest)</td><td>Strong trend — don't miss the opportunity</td></tr>
+    <tr><td>📊 RANGING</td><td><span class="badge blue">4</span> (higher)</td><td>Many false breakouts</td></tr>
+    <tr><td>⚡ VOLATILE</td><td><span class="badge red">5</span> (strictest)</td><td>High risk — need strong confirmation</td></tr>
+    <tr><td>🔄 TRANSITIONING</td><td><span class="badge yellow">3</span> (default)</td><td>Normal conditions</td></tr>
+  </table>
+  <p style="margin-top:10px">How to read: <code>🟢 BUY (4/📈2)</code> = 4 factors met / min is 2 (Trending regime)</p>
+</div>
+
+<!-- ═══ 8. REGIME ═══ -->
+<h2 id="regime"><i class="fa-solid fa-arrows-spin"></i> 8. Market Regime Detection</h2>
+<table>
+  <tr><th>Type</th><th>Detection</th><th>TP ×</th><th>SL ×</th><th>Size ×</th><th>Conf Min</th></tr>
+  <tr><td>📈 TRENDING</td><td>ADX &gt; 25 + ATR &gt; 1.1×</td><td>1.5</td><td>0.9</td><td>1.0</td><td>2</td></tr>
+  <tr><td>📊 RANGING</td><td>ADX &lt; 20 + ATR &lt; 0.9×</td><td>0.7</td><td>1.1</td><td>0.8</td><td>4</td></tr>
+  <tr><td>⚡ VOLATILE</td><td>ATR &gt; 1.8×</td><td>0.8</td><td>1.3</td><td>0.5</td><td>5</td></tr>
+  <tr><td>🔄 TRANSITIONING</td><td>None of the above</td><td>1.0</td><td>1.0</td><td>1.0</td><td>3</td></tr>
+</table>
+
+<!-- ═══ 9. WYCKOFF ═══ -->
+<div class="page-break"></div>
+<h2 id="wyckoff"><i class="fa-solid fa-scale-balanced"></i> 9. Wyckoff Effort vs Result</h2>
+<p>Based on <strong>Wyckoff's principle</strong>: If volume is exceptional (&gt;95th percentile) but the candle body is weak (&lt;30% of range), institutions are distributing — selling while retail is buying.</p>
+
+<div class="card green">
+  <h3>✅ Real Breakout</h3>
+  <p><code>Volume: XH (Extra High) + Candle: Big Green (Body = 75%) → Score += 2</code></p>
+</div>
+<div class="card red">
+  <h3>⚠️ Distribution (Absorption)</h3>
+  <p><code>Volume: XH (Extra High) + Candle: Doji (Body = 15%) → Score -= 2 (penalty!)</code></p>
+  <p style="margin-top:8px">Dashboard shows: <span class="badge orange">⚠️ Absorption</span></p>
+</div>
+
+<!-- ═══ 10. BACKTESTER ═══ -->
+<h2 id="backtester"><i class="fa-solid fa-chart-column"></i> 10. Mini Backtester</h2>
+<p>Tracks the <strong>last 5 Confluence BUY signals</strong> and calculates win rate. Records Entry, SL, TP1 and monitors: did TP1 hit before SL?</p>
+<table>
+  <tr><th>Result</th><th>Meaning</th><th>Color</th><th>Action</th></tr>
+  <tr><td>≥ 60%</td><td>Excellent performance</td><td><span class="badge green">🟢</span></td><td>Enter with confidence</td></tr>
+  <tr><td>40-59%</td><td>Average performance</td><td><span class="badge yellow">🟡</span></td><td>Be cautious</td></tr>
+  <tr><td>&lt; 40%</td><td>Poor performance</td><td><span class="badge red">🔴</span></td><td>Reduce size or wait</td></tr>
+</table>
+<div class="card blue">
+  <h3>How it Works</h3>
+  <p>Uses an <strong>Array Queue</strong> of 5 elements. On new signal: tracks until TP1 hit (✅ Win), SL hit (❌ Loss), or 50 bars timeout (= Loss). <code>array.sum()</code> = exact win count.</p>
+</div>
+
+<!-- ═══ 11. RISK ═══ -->
+<div class="page-break"></div>
+<h2 id="risk"><i class="fa-solid fa-shield-halved"></i> 11. Risk Manager</h2>
+<p>Integrated system calculating SL, TP1-3, position size, and expected profit — all <strong>dynamically</strong> based on Score and Regime.</p>
+
+<div class="card green">
+  <h3>Score-based Position Sizing</h3>
+  <table>
+    <tr><th>Score</th><th>Risk %</th><th>Reason</th></tr>
+    <tr><td>≥ 7</td><td><span class="badge green">3.0%</span></td><td>Very strong signal — larger size</td></tr>
+    <tr><td>≥ 5</td><td>2.0%</td><td>Good signal — normal size</td></tr>
+    <tr><td>≥ 3</td><td>1.5%</td><td>Moderate signal — smaller size</td></tr>
+    <tr><td>≥ 1</td><td>1.0%</td><td>Weak signal — minimum size</td></tr>
+    <tr><td>&lt; 1</td><td><span class="badge red">0.5%</span></td><td>Neutral/negative — smallest size</td></tr>
+  </table>
+</div>
+
+<div class="card orange">
+  <h3>📌 Dynamic Trailing Stop</h3>
+  <table>
+    <tr><th>Profit Level</th><th>Trail Multiplier</th><th>Reason</th></tr>
+    <tr><td>&lt; 3%</td><td><code>1.5× ATR</code></td><td>Wide room — let the stock move</td></tr>
+    <tr><td>3% - 5%</td><td><code>1.2× ATR</code></td><td>Tightening — start protecting profit</td></tr>
+    <tr><td>&gt; 5%</td><td><code>1.0× ATR</code></td><td>Tightest — lock in profits!</td></tr>
+  </table>
+</div>
+
+<div class="card red">
+  <h3>🇪🇬 EGX Daily Limit Protection</h3>
+  <p>EGX has a <strong>±10% daily limit</strong>. The indicator ensures SL and TP never exceed this limit — because if SL is beyond 10%, it simply won't execute!</p>
+</div>
+
+<!-- ═══ RISK V2 ═══ -->
+<div class="page-break"></div>
+<h2 id="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ Advanced Risk Manager V2</h2>
+<p>10 advanced tools that work <strong>automatically</strong> to protect capital and optimize performance — purpose-built for EGX.</p>
+
+<div class="card green">
+  <h3>🌡️ Portfolio Heat Map</h3>
+  <p>Tracks total open risk across all positions. Above 6% = ⚠️ warning | Above 10% = <span class="badge red">🚫 stop entering!</span> Manual <code>Open Trades Count</code> input.</p>
+</div>
+<div class="card red">
+  <h3>🚨 Drawdown Circuit Breaker</h3>
+  <p>After 3 consecutive losses → <strong>blocks all BUY signals</strong> + zeros position size. Dashboard shows <span class="badge red">🚫 BLOCKED</span>. Protects from revenge trading.</p>
+</div>
+<div class="card blue">
+  <h3>📐 Volatility-Adjusted Exits</h3>
+  <p>Adjusts TP/SL automatically based on <code>ATR/SMA(ATR,50)</code>. High volatility = wider SL + closer TP. Low volatility = tighter SL + farther TP.</p>
+</div>
+<div class="card orange">
+  <h3>🔗 Correlation Guard</h3>
+  <p>If stock correlation with index (EGX30) > 85% → <span class="badge orange">reduce size by 30%</span> to avoid overexposure to the same market direction.</p>
+</div>
+<div class="card blue">
+  <h3>⏰ Time-Based Risk Decay</h3>
+  <p>Trailing stop tightens as trade ages: 0-10 bars = <span class="badge green">2.0×</span> | 11-25 = 1.5× | 26-50 = <span class="badge orange">1.0×</span> | >50 = <span class="badge red">0.7×</span></p>
+</div>
+<div class="card green">
+  <h3>📊 Expectancy Calculator</h3>
+  <p>Computes <code>E(R) = (Win% × AvgWin) - (Loss% × AvgLoss)</code> from real Mini Backtester data. If negative = <span class="badge red">system is losing!</span></p>
+</div>
+<div class="card blue">
+  <h3>📍 Smart Entry Zones</h3>
+  <p>Suggests better entry prices near AVWAP / EMA20 / Demand Zone to improve Risk:Reward ratio. Shows as <span class="badge blue">📍 Better</span> and <span class="badge blue">📍 Best</span> in dashboard.</p>
+</div>
+<div class="card orange">
+  <h3>🔥 Consecutive Loss Tracker</h3>
+  <table>
+    <tr><th>Losses</th><th>Size</th></tr>
+    <tr><td>0-1</td><td><span class="badge green">100%</span></td></tr>
+    <tr><td>2</td><td><span class="badge orange">75%</span></td></tr>
+    <tr><td>3</td><td><span class="badge red">50%</span></td></tr>
+    <tr><td>4+</td><td><span class="badge red">25%</span></td></tr>
+  </table>
+</div>
+<div class="card green">
+  <h3>🎰 Kelly Criterion</h3>
+  <p>Uses <strong>½ Kelly</strong> to calculate optimal position size from real Mini Backtester data. Only appears after 3+ trades.</p>
+</div>
+<div class="card orange">
+  <h3>⏰ Session Risk Premium</h3>
+  <table>
+    <tr><th>Zone</th><th>Multiplier</th></tr>
+    <tr><td>⚫ Auction Open</td><td><span class="badge red">×0.5</span></td></tr>
+    <tr><td>🔴 Trap Zone</td><td><span class="badge orange">×0.75</span></td></tr>
+    <tr><td>🟢 Smart Money</td><td><span class="badge green">×1.0</span></td></tr>
+    <tr><td>🟡 Close</td><td>×0.6</td></tr>
+    <tr><td>⚫ Auction Close</td><td><span class="badge red">×0.3</span></td></tr>
+  </table>
+</div>
+
+<!-- ═══ 12. SESSION ═══ -->
+<h2 id="session"><i class="fa-regular fa-calendar-check"></i> 12. Session Shield (EGX)</h2>
+<table>
+  <tr><th>Time</th><th>Zone</th><th>Score ±</th><th>Description</th></tr>
+  <tr><td>9:30-10:00</td><td><span class="badge orange">⚫ AUCTION Open</span></td><td>-1</td><td>Opening auction — fake volume</td></tr>
+  <tr><td>10:00-11:00</td><td><span class="badge red">🔴 TRAP ZONE</span></td><td>-1</td><td>Market maker traps — fake orders</td></tr>
+  <tr><td>11:00-13:30</td><td><span class="badge green">🟢 SMART MONEY</span></td><td>+1</td><td>Institutional activity — best time!</td></tr>
+  <tr><td>13:00-14:00</td><td><span class="badge yellow">🟡 CLOSE CHAOS</span></td><td>0</td><td>Position closing — random volatility</td></tr>
+  <tr><td>14:20-14:30</td><td><span class="badge orange">⚫ AUCTION Close</span></td><td>-1</td><td>Closing auction — fake volume</td></tr>
+</table>
+
+<!-- ═══ 13. ORDER FLOW ═══ -->
+<div class="page-break"></div>
+<h2 id="orderflow"><i class="fa-solid fa-arrow-right-arrow-left"></i> 13. Virtual Order Flow</h2>
+<p>Simulates <strong>Order Book</strong> data by analyzing Wicks and Volume. A <strong>long Lower Wick + High Volume</strong> = Buy Limit Orders at that level.</p>
+
+<div class="card green">
+  <h3>📊 Wick Analysis</h3>
+  <table>
+    <tr><th>State</th><th>Condition</th><th>Interpretation</th></tr>
+    <tr><td><span class="badge green">🟢 Buy Flow</span></td><td>Lower Wick ≥ 60% + Volume HIGH</td><td>Institutional buy orders — buyers rejected low prices</td></tr>
+    <tr><td><span class="badge red">🔴 Sell Flow</span></td><td>Upper Wick ≥ 60% + Volume HIGH</td><td>Institutional sell orders — sellers rejected high prices</td></tr>
+    <tr><td>🟡 Neutral</td><td>No condition met</td><td>No clear pressure</td></tr>
+  </table>
+</div>
+
+<!-- ═══ 14. ZONES ═══ -->
+<h2 id="zones"><i class="fa-solid fa-layer-group"></i> 14. Premium & Discount Zones</h2>
+<div class="card orange">
+  <table>
+    <tr><th>Zone</th><th>Condition</th><th>Action</th></tr>
+    <tr><td><span class="badge red">🔴 PREMIUM++</span></td><td>Above outer upper band</td><td>Danger! Don't buy — overpriced</td></tr>
+    <tr><td><span class="badge orange">🟠 PREMIUM</span></td><td>Between inner/outer upper</td><td>Caution — price is expensive</td></tr>
+    <tr><td>⚪ FAIR VALUE</td><td>Between bands</td><td>Fair price</td></tr>
+    <tr><td><span class="badge blue">🔵 DISCOUNT</span></td><td>Between inner/outer lower</td><td>Potential buy opportunity</td></tr>
+    <tr><td><span class="badge green">🟢 DISCOUNT++</span></td><td>Below outer lower band</td><td>Golden opportunity — very cheap!</td></tr>
+  </table>
+</div>
+
+<!-- ═══ 15. SCANNER ═══ -->
+<div class="page-break"></div>
+<h2 id="scanner"><i class="fa-solid fa-satellite-dish"></i> 15. 20-Symbol Scanner</h2>
+<p>Scanner examining <strong>20 stocks</strong> simultaneously using the <strong>exact same V1 algorithm</strong>. All settings in English with a Name/Code toggle.</p>
+<div class="img-box"><img src="img/scanner.png" alt="Scanner"><div class="img-cap">20-Symbol Scanner — scanning all EGX stocks with V1 algorithm</div></div>
+<div style="text-align:center;margin:-10px 0 16px;padding:6px 14px;border-radius:8px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);display:inline-block;font-size:.78em;color:var(--orange)"><i class="fa-solid fa-wand-magic-sparkles"></i> ⚠️ Images are AI-generated and may differ from the actual indicator appearance on TradingView</div>
+
+<div class="card green">
+  <h3>🔄 Full Sync with Main Indicator</h3>
+  <table>
+    <tr><th>Feature</th><th>Indicator</th><th>Scanner</th><th>Sync?</th></tr>
+    <tr><td>Core Score Algorithm</td><td>✅</td><td>✅</td><td><span class="badge green">✅ 100%</span></td></tr>
+    <tr><td>AVWAP [V1]</td><td>✅</td><td>✅</td><td><span class="badge green">✅ 100%</span></td></tr>
+    <tr><td>Candle Patterns [V1]</td><td>✅</td><td>✅</td><td><span class="badge green">✅ 100%</span></td></tr>
+    <tr><td>Order Flow</td><td>✅</td><td>✅</td><td><span class="badge green">✅ 100%</span></td></tr>
+    <tr><td>Wyckoff Effort</td><td>✅</td><td>✅</td><td><span class="badge green">✅ 100%</span></td></tr>
+    <tr><td>Confluence</td><td>/9</td><td>/8</td><td><span class="badge yellow">Different</span></td></tr>
+    <tr><td>Bonus Score (B1-B8)</td><td>✅ ±8</td><td>— Core only</td><td><span class="badge yellow">Indicator only</span></td></tr>
+    <tr><td>Name/Code Toggle</td><td>—</td><td>✅</td><td><span class="badge blue">Scanner only</span></td></tr>
+  </table>
+</div>
+
+<div class="card blue">
+  <h3>Scanner Dashboard Columns</h3>
+  <table>
+    <tr><th>Column</th><th>Description</th></tr>
+    <tr><td>Stock</td><td>Name or Ticker (toggle in settings)</td></tr>
+    <tr><td>Grade</td><td>Signal quality: A+ → D</td></tr>
+    <tr><td>Score + OF</td><td>Score + 🟢/🔴 Order Flow</td></tr>
+    <tr><td>Conf</td><td>Confluence factors /8</td></tr>
+    <tr><td>Price / %</td><td>Current price and change %</td></tr>
+    <tr><td>Daily</td><td>Daily trend 🟢/🔴</td></tr>
+    <tr><td>Vol / SQZ / RSI</td><td>Volume level, Squeeze status, RSI value</td></tr>
+    <tr><td>Signal</td><td>BUY / ⚠️ / —</td></tr>
+  </table>
+</div>
+
+<!-- ═══ 16. SCENARIOS ═══ -->
+<div class="page-break"></div>
+<h2 id="scenarios"><i class="fa-solid fa-book-open"></i> 16. Trading Scenarios</h2>
+
+<div class="card green">
+  <div class="scenario">
+    <div class="title">📗 Scenario 1: Perfect Trade (Grade A+)</div>
+    <p><strong>Time:</strong> 11:15 AM 🟢 Smart Money | <strong>Stock:</strong> SWDY | <strong>TF:</strong> 1H</p>
+    <p>★ Verdict: <code>🟢 STRONG BUY A+</code> | Score: <code>5+3+1 = 9</code> | Confluence: <code>5/📈2</code></p>
+    <p>★ Win Rate: <code>4/5 (80%) 🟢</code> | Zone: <code>🔵 DISCOUNT</code></p>
+    <p><strong>Decision:</strong> ✅ Enter with full position → TP1 → Break-Even → TP2 → TP3</p>
+  </div>
+</div>
+
+<div class="card orange">
+  <div class="scenario">
+    <div class="title">📙 Scenario 2: Wyckoff Saves You</div>
+    <p><strong>Stock:</strong> ORHD | Volume: <code>🔥 XH</code> but Candle: <code>Doji (12%)</code></p>
+    <p>★ Wyckoff: <span class="badge orange">⚠️ Absorption</span> | Score: <code>1 only</code> (instead of 5!)</p>
+    <p><strong>Decision:</strong> ❌ Don't buy! Institutions are distributing</p>
+  </div>
+</div>
+
+<div class="card red">
+  <div class="scenario">
+    <div class="title">📕 Scenario 3: Dynamic Confluence Protects</div>
+    <p><strong>Time:</strong> 10:45 🔴 Trap Zone | Score: <code>5</code> (looks good!)</p>
+    <p>Confluence: <code>🟡 WAIT (3/⚡5)</code> — Min=5 because VOLATILE!</p>
+    <p><strong>Decision:</strong> ❌ Don't enter! Conf &lt; Min + Trap Zone + Win Rate 20%</p>
+  </div>
+</div>
+
+<!-- ═══ 17. TIPS ═══ -->
+<div class="page-break"></div>
+<h2 id="tips"><i class="fa-solid fa-lightbulb"></i> 17. Pro Tips</h2>
+
+<div class="card green">
+  <h3>🎯 Best Timeframe</h3>
+  <p>Use <strong>1H</strong> as primary timeframe. Clean signals that match the Egyptian session length (4.5 hours = 4-5 candles).</p>
+</div>
+<div class="card blue">
+  <h3>🔔 Alerts</h3>
+  <p>Don't enable individual structure break alerts. Use <strong>only</strong> the <code>★ Smart Consolidated Alert</code> — sends one clean notification with all details.</p>
+</div>
+<div class="card green">
+  <h3>💰 Take Profit System</h3>
+  <ul>
+    <li><strong>Step 1:</strong> Sell 40% at TP1</li>
+    <li><strong>Step 2:</strong> Move stop to Break-Even — risk-free trade!</li>
+    <li><strong>Step 3:</strong> Sell 30% at TP2</li>
+    <li><strong>Step 4:</strong> Sell last 30% at TP3 or Trailing Stop</li>
+  </ul>
+</div>
+
+<!-- ═══ 18. RULES ═══ -->
+<h2 id="rules"><i class="fa-solid fa-gavel"></i> 18. Golden Rules</h2>
+<div class="rules">
+  <div class="rule">Only enter on Grade A or A+</div>
+  <div class="rule">Ensure Confluence ≥ dynamic threshold</div>
+  <div class="rule">Trade only in 🟢 Smart Money Session (11:00-13:30)</div>
+  <div class="rule">If Wyckoff Absorption shows → don't buy</div>
+  <div class="rule">If Win Rate &lt; 40% → reduce size or wait</div>
+  <div class="rule">If Score Momentum 📉 → tighten stop-loss</div>
+  <div class="rule">If Regime = Volatile → be extra cautious</div>
+  <div class="rule">Follow TP1 → Break-Even → TP2 → TP3 ladder</div>
+  <div class="rule dont">Never enter during 🔴 Trap Zone ❌</div>
+  <div class="rule dont">Never ignore 🔴 RSI Bear Divergence ❌</div>
+</div>
+
+<!-- ═══ 19. SETTINGS ═══ -->
+<div class="page-break"></div>
+<h2 id="settings"><i class="fa-solid fa-sliders"></i> 19. Settings Reference</h2>
+<p>All available settings in TradingView. Defaults tuned for EGX on 1H.</p>
+
+<div class="card green">
+  <h3>🏗️ Structure Settings</h3>
+  <table>
+    <tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+    <tr><td>Lookback Length</td><td>20</td><td>Bars to detect swing highs/lows</td></tr>
+    <tr><td>Show Internal/External</td><td>✅</td><td>Toggle CHoCH/BoS visibility</td></tr>
+    <tr><td>★ Clean Chart</td><td>❌</td><td>Show dashboard only (hide chart drawings)</td></tr>
+  </table>
+</div>
+<div class="card orange">
+  <h3>💰 Risk Manager Settings</h3>
+  <table>
+    <tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+    <tr><td>Capital</td><td>50,000</td><td>Portfolio size in EGP</td></tr>
+    <tr><td>ATR SL Multiplier</td><td>2.0</td><td>ATR multiplier for stop-loss</td></tr>
+    <tr><td>Confluence Min</td><td>3</td><td>Min entry conditions (dynamic by regime)</td></tr>
+    <tr><td>Score Buy Threshold</td><td>5</td><td>Min score for buy signal</td></tr>
+    <tr><td>TP Scale (1/2/3)</td><td>1.5/2.5/3.5</td><td>ATR multipliers for 3 targets</td></tr>
+  </table>
+</div>
+<div class="card red">
+  <h3>🛡️ Risk V2 Advanced Settings</h3>
+  <table>
+    <tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+    <tr><td>Portfolio Heat Map</td><td>✅</td><td>Track total open risk</td></tr>
+    <tr><td>Open Trades Count</td><td>0</td><td>Manual open trades count</td></tr>
+    <tr><td>Circuit Breaker</td><td>✅</td><td>Block signals after consecutive losses</td></tr>
+    <tr><td>Max Consecutive Losses</td><td>3</td><td>Losses before breaker trips</td></tr>
+    <tr><td>Correlation Guard</td><td>✅</td><td>Reduce size on high index correlation</td></tr>
+    <tr><td>Smart Entry Zones</td><td>✅</td><td>Suggest better entries near AVWAP/EMA/Demand</td></tr>
+    <tr><td>Session Risk Premium</td><td>✅</td><td>Adjust size by session timing</td></tr>
+    <tr><td>Kelly Criterion</td><td>✅</td><td>Optimal sizing via ½ Kelly</td></tr>
+    <tr><td>Vol-Adjusted Exits</td><td>✅</td><td>TP/SL scale with current ATR</td></tr>
+    <tr><td>Expectancy Calculator</td><td>✅</td><td>Real-time E(R) per trade</td></tr>
+  </table>
+</div>
+
+<!-- ═══ DEVELOPER ═══ -->
+<div class="page-break"></div>
+<h2 id="dev"><i class="fa-solid fa-user-tie"></i> About the Developer</h2>
+<div class="dev">
+  <div class="avatar" style="padding:0;overflow:hidden"><img src="img/ahmed_fawzy.jpeg" alt="Ahmed Fawzy" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+  <div class="name">Ahmed Mohammed Fawzy</div>
+  <div class="title">PMP-Certified Project Manager & AI Algorithmic Trading Developer</div>
+  <div class="bio">
+    PMP/Agile certified project manager with 13+ years in digital transformation. Combining project management expertise with AI programming and quantitative market analysis. Engineered Core Market Dynamics V1 using AI to transform SMC & Wyckoff concepts into high-precision automated trading algorithms.
+  </div>
+  <div class="skills">
+    <span class="skill">🤖 AI Prompt Engineering</span>
+    <span class="skill">📊 Algorithmic Trading</span>
+    <span class="skill">💰 Smart Money Concepts</span>
+    <span class="skill">📋 PMP & Agile</span>
+    <span class="skill">🔄 Digital Transformation</span>
+  </div>
+  <div class="contact">
+    <a href="https://www.linkedin.com/in/ahmed-m-fawzy" target="_blank" class="btn-wa" style="background:rgba(10,102,194,.1);color:#0a66c2;border:1px solid rgba(10,102,194,.25)"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+    <a href="mailto:Ahmed.m.fawzy@hotmail.com" class="btn-em">✉️ Ahmed.m.fawzy@hotmail.com</a>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer style="margin-top:50px">
+  <div class="card red" style="border-left:4px solid var(--red)">
+    <h3 style="color:var(--red)"><i class="fa-solid fa-triangle-exclamation"></i> Disclaimer</h3>
+    <p style="font-size:.88em"><strong style="color:var(--red)">Warning:</strong> Trading in financial markets involves significant risk. This indicator is an analytical tool based on mathematical algorithms and does not constitute financial advice. The developer is not responsible for any financial losses. Users must manage their own risks.</p>
+  </div>
+  <div class="dev" style="margin-top:20px;padding:28px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px">
+      <i class="fa-solid fa-microchip" style="color:var(--green);font-size:1.2em"></i>
+      <span style="color:var(--green);font-weight:900;font-size:1.05em">Core Market Dynamics V1 Edition</span>
+    </div>
+    <p style="color:var(--muted);font-size:.85em">© 2026 Ahmed Mohammed Fawzy. All Rights Reserved.</p>
+    <p style="color:var(--muted);font-size:.78em;max-width:650px;margin:8px auto">
+      Core Market Dynamics V1 system and its source code are the exclusive intellectual property of the developer. Reproduction, distribution, or sale without explicit written permission is prohibited.
+    </p>
+    <p style="color:var(--muted);font-size:.75em;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+      Developed with ❤️ by Ahmed Fawzy | Based on SMC + Wyckoff Principles | 2026
+    </p>
+  </div>
+
+</footer>
+
+</div><!-- /main -->
+</div><!-- /page -->
+
+<!-- ═══ JS ═══ -->
+<script>
+// Anti-copy + Anti-print
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&['p','P','c','C','u','U','s','S'].includes(e.key)){e.preventDefault();return false}});
+document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('cut',e=>e.preventDefault());
+// ScrollSpy
+(function(){
+  const secs=document.querySelectorAll('h2[id]'),links=document.querySelectorAll('.sidebar a[data-s]');
+  function spy(){let c='';secs.forEach(s=>{if(s.getBoundingClientRect().top<=100)c=s.id});
+  links.forEach(l=>{l.classList.remove('active');if(l.dataset.s===c)l.classList.add('active')})}
+  window.addEventListener('scroll',spy,{passive:true});spy()
+})();
+// Sidebar toggle
+(function(){
+  const sb=document.getElementById('sidebar'),tb=document.getElementById('toggler'),ic=document.getElementById('togIcon');
+  tb.onclick=()=>{const o=sb.classList.toggle('open');ic.className=o?'fa-solid fa-xmark':'fa-solid fa-bars'};
+  document.querySelectorAll('.sidebar a').forEach(a=>a.addEventListener('click',()=>{if(innerWidth<=960){sb.classList.remove('open');ic.className='fa-solid fa-bars'}}))
+})();
+// Progress
+(function(){const b=document.getElementById('prog');
+  window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;b.style.width=(h>0?scrollY/h*100:0)+'%'},{passive:true})
+})();
+// Back to top
+(function(){const b=document.getElementById('btt');
+  window.addEventListener('scroll',()=>b.classList.toggle('show',scrollY>400),{passive:true});
+  b.onclick=()=>scrollTo({top:0,behavior:'smooth'})
+})();
+// Tab System
+function showTab(ev,id){document.querySelectorAll('.tab-panel').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(id).classList.add('active');ev.currentTarget.classList.add('active')}
+// Intersection Observer — Card Reveal
+(function(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}});
+  },{threshold:0.08});
+  document.querySelectorAll('.card,.scenario,.rule,.dev').forEach((el,i)=>{
+    el.style.opacity='0';el.style.transform='translateY(18px)';
+    el.style.transition=`opacity .6s ease ${i*.03}s, transform .6s ease ${i*.03}s, box-shadow .35s ease, border-color .35s ease`;
+    obs.observe(el);
+  });
+})();
+</script>
+</body>
+</html>

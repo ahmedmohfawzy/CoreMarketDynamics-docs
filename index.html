@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Market Dynamics V1 — Algorithmic Trading System</title>
+<meta name="description" content="Professional algorithmic trading system for TradingView. Smart Money Concepts + Wyckoff + AVWAP. Built for the Egyptian Market (EGX).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<style>
+:root {
+  --bg: #0a0f1e; --bg2: #0d1528; --bg3: #111a30;
+  --card: rgba(17,24,48,0.6); --card-solid: #111827;
+  --border: rgba(255,255,255,0.06); --border-hover: rgba(255,255,255,0.12);
+  --green: #00e676; --green-dim: rgba(0,230,118,0.1); --green-glow: rgba(0,230,118,0.15);
+  --blue: #60a5fa; --blue-dim: rgba(96,165,250,0.1);
+  --accent: #818cf8; --accent-dim: rgba(129,140,248,0.1);
+  --red: #ff5252; --orange: #fbbf24; --cyan: #22d3ee;
+  --text: #e2e8f0; --muted: #94a3b8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;
+  -webkit-user-select:none;-moz-user-select:none;user-select:none}
+
+/* ══ GLOBAL BG ══ */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(800px at 20% 20%,rgba(0,230,118,.04),transparent 60%),
+             radial-gradient(600px at 80% 80%,rgba(96,165,250,.03),transparent 60%),
+             radial-gradient(400px at 50% 50%,rgba(129,140,248,.02),transparent 50%)}
+
+/* ══ NAV ══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(10,15,30,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);transition:all .3s}
+nav.scrolled{padding:10px 40px;box-shadow:0 4px 30px rgba(0,0,0,.3)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--green),#10b981);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1em;font-weight:900;color:var(--bg)}
+.logo-text{font-size:1.1em;font-weight:800;color:var(--text)}
+.logo-text span{color:var(--green)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.88em;font-weight:500;transition:color .25s;position:relative}
+.nav-links a:hover{color:var(--text)}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--green);transition:width .3s}
+.nav-links a:hover::after{width:100%}
+.nav-cta{padding:8px 22px;border-radius:10px;font-size:.85em;font-weight:700;text-decoration:none;
+  background:linear-gradient(135deg,var(--green),#10b981);color:var(--bg);
+  transition:all .3s;border:none;cursor:pointer}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,230,118,.3)}
+
+/* ══ HERO ══ */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;padding:120px 40px 80px;overflow:hidden}
+.hero::before{content:'';position:absolute;top:10%;left:50%;transform:translateX(-50%);
+  width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,230,118,.06) 0%,rgba(0,230,118,0) 70%);
+  animation:heroOrb 8s ease-in-out infinite alternate}
+@keyframes heroOrb{0%{transform:translateX(-50%) scale(1);opacity:.7}100%{transform:translateX(-50%) scale(1.2);opacity:1}}
+.hero-inner{text-align:center;max-width:900px;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;
+  padding:6px 18px;border-radius:20px;font-size:.8em;font-weight:600;
+  background:var(--green-dim);color:var(--green);border:1px solid rgba(0,230,118,.2);
+  margin-bottom:24px;animation:fadeInUp .8s ease}
+.hero h1{font-size:clamp(2.5em,6vw,4.2em);font-weight:900;line-height:1.15;margin-bottom:20px;
+  animation:fadeInUp 1s ease .1s both}
+.hero h1 .gradient{background:linear-gradient(135deg,var(--green),#10b981,var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.2em;color:var(--muted);max-width:650px;margin:0 auto 36px;
+  animation:fadeInUp 1s ease .2s both}
+.hero-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  animation:fadeInUp 1s ease .3s both}
+.btn-primary{padding:14px 36px;border-radius:14px;font-size:1em;font-weight:700;text-decoration:none;
+  background:linear-gradient(135deg,var(--green),#10b981);color:var(--bg);
+  transition:all .3s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,230,118,.25)}
+.btn-secondary{padding:14px 36px;border-radius:14px;font-size:1em;font-weight:700;text-decoration:none;
+  background:transparent;color:var(--text);border:1px solid var(--border);
+  transition:all .3s;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.btn-secondary:hover{border-color:var(--green);background:var(--green-dim);transform:translateY(-3px)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ STATS BAR ══ */
+.stats{display:flex;justify-content:center;gap:60px;padding:50px 40px;position:relative;z-index:1;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2)}
+.stat{text-align:center}
+.stat-num{font-size:2.2em;font-weight:900;color:var(--green)}
+.stat-label{font-size:.85em;color:var(--muted);margin-top:4px;font-weight:500}
+
+/* ══ SECTIONS ══ */
+section{padding:100px 40px;position:relative;z-index:1}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-badge{display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;border-radius:16px;font-size:.75em;font-weight:700;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.badge-green{background:var(--green-dim);color:var(--green);border:1px solid rgba(0,230,118,.15)}
+.badge-blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(96,165,250,.15)}
+.badge-accent{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(129,140,248,.15)}
+.section-title{font-size:2.4em;font-weight:900;margin-bottom:18px;line-height:1.2}
+.section-sub{font-size:1.1em;color:var(--muted);max-width:650px;margin-bottom:50px}
+
+/* ══ FEATURE GRID ══ */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px}
+.feature{background:var(--card);backdrop-filter:blur(14px);border:1px solid var(--border);
+  border-radius:20px;padding:32px;position:relative;overflow:hidden;
+  transition:all .4s ease}
+.feature:hover{transform:translateY(-4px);border-color:var(--border-hover);
+  box-shadow:0 8px 40px rgba(0,230,118,.06)}
+.feature::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:0;transition:opacity .4s}
+.feature:hover::before{opacity:1}
+.feature-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:1.2em;margin-bottom:18px}
+.fi-green{background:var(--green-dim);color:var(--green)}
+.fi-blue{background:var(--blue-dim);color:var(--blue)}
+.fi-accent{background:var(--accent-dim);color:var(--accent)}
+.fi-orange{background:rgba(251,191,36,.1);color:var(--orange)}
+.fi-cyan{background:rgba(34,211,238,.1);color:var(--cyan)}
+.fi-red{background:rgba(255,82,82,.1);color:var(--red)}
+.feature h3{font-size:1.15em;font-weight:700;margin-bottom:8px}
+.feature p{font-size:.9em;color:var(--muted);line-height:1.7}
+
+/* ══ SCORE PREVIEW ══ */
+.score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.score-item{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:20px;display:flex;align-items:center;gap:14px;transition:all .35s}
+.score-item:hover{border-color:var(--border-hover);transform:translateX(4px)}
+.score-val{font-size:1.5em;font-weight:900;min-width:44px;text-align:center}
+.score-val.pos{color:var(--green)}
+.score-val.neg{color:var(--red)}
+.score-info h4{font-size:.95em;font-weight:700;margin-bottom:2px}
+.score-info p{font-size:.8em;color:var(--muted)}
+
+/* ══ DEVELOPER ══ */
+.dev-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.dev-card{display:flex;align-items:center;gap:40px;max-width:800px;margin:0 auto}
+.dev-photo{width:120px;height:120px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--green),var(--accent));padding:3px;
+  animation:pulse 3s ease-in-out infinite}
+.dev-photo img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,230,118,.35)}50%{box-shadow:0 0 0 14px rgba(0,230,118,0)}}
+.dev-info h3{font-size:1.4em;font-weight:800;color:var(--green);margin-bottom:4px}
+.dev-info .role{font-size:.9em;color:var(--accent);margin-bottom:12px}
+.dev-info p{font-size:.88em;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.dev-links{display:flex;gap:12px;flex-wrap:wrap}
+.dev-links a{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:10px;
+  text-decoration:none;font-size:.82em;font-weight:600;transition:all .3s}
+.btn-li{background:rgba(10,102,194,.1);color:#0a66c2;border:1px solid rgba(10,102,194,.2)}
+.btn-li:hover{background:rgba(10,102,194,.2);transform:translateY(-2px)}
+.btn-mail{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(129,140,248,.2)}
+.btn-mail:hover{background:rgba(129,140,248,.2);transform:translateY(-2px)}
+
+/* ══ CTA SECTION ══ */
+.cta-section{text-align:center;padding:100px 40px;position:relative;z-index:1}
+.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,230,118,.06),transparent 70%);pointer-events:none}
+.cta-title{font-size:2.6em;font-weight:900;margin-bottom:16px}
+.cta-sub{font-size:1.1em;color:var(--muted);max-width:550px;margin:0 auto 36px}
+
+/* ══ FOOTER ══ */
+footer{padding:40px;text-align:center;border-top:1px solid var(--border);background:var(--bg)}
+footer p{font-size:.82em;color:var(--muted)}
+footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;line-height:1.6}
+
+/* ══ REVEAL ══ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:768px){
+  nav{padding:12px 20px}
+  .nav-links{display:none}
+  .hero{padding:100px 20px 60px}
+  .stats{flex-wrap:wrap;gap:30px;padding:30px 20px}
+  section{padding:60px 20px}
+  .features{grid-template-columns:1fr}
+  .dev-card{flex-direction:column;text-align:center}
+  .dev-links{justify-content:center}
+  .score-grid{grid-template-columns:1fr}
+}
+@media print{body::before{content:'⛔ Printing is disabled';display:flex;align-items:center;justify-content:center;
+  position:fixed;inset:0;background:#fff;color:#000;font-size:2em;font-weight:900;z-index:99999}
+  .hero,section,nav,footer,.stats{display:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <div class="logo-icon"><i class="fa-solid fa-microchip"></i></div>
+    <div class="logo-text">Core<span>MD</span> V1</div>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#scoring">Scoring</a>
+    <a href="#scanner">Scanner</a>
+    <a href="#developer">Developer</a>
+    <a href="CMD_V1_Guide_EN.html" class="nav-cta">📖 Full Guide</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><i class="fa-solid fa-bolt"></i>  — V1</div>
+    <h1>The <span class="gradient">Smartest</span> Trading System on TradingView</h1>
+    <p class="hero-sub">Core Market Dynamics combines Smart Money Concepts, Wyckoff Analysis, AVWAP, and <strong>10 Advanced Risk Management tools</strong> into one unified algorithmic scoring engine — purpose-built for the Egyptian Market.</p>
+    <div class="hero-ctas">
+      <a href="CMD_V1_Guide_EN.html" class="btn-primary"><i class="fa-solid fa-book-open"></i> Read the Guide</a>
+      <a href="CMD_V1_Guide_AR.html" class="btn-secondary"><i class="fa-solid fa-globe"></i> الدليل بالعربي</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">±20</div><div class="stat-label">Score Range</div></div>
+  <div class="stat"><div class="stat-num">9</div><div class="stat-label">Confluence Factors</div></div>
+  <div class="stat"><div class="stat-num">10</div><div class="stat-label">Risk V2 Tools</div></div>
+  <div class="stat"><div class="stat-num">20</div><div class="stat-label">Stocks Scanned</div></div>
+  <div class="stat"><div class="stat-num">2400+</div><div class="stat-label">Lines of Code</div></div>
+  <div class="stat"><div class="stat-num">4</div><div class="stat-label">Market Regimes</div></div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<section id="features">
+  <div class="section-inner">
+    <div class="section-badge badge-green"><i class="fa-solid fa-sparkles"></i> Core Features</div>
+    <h2 class="section-title">Enterprise-Grade Architecture</h2>
+    <p class="section-sub">Every component is precision-engineered for accuracy, speed, and reliability in live market conditions.</p>
+    <div class="features">
+      <div class="feature reveal">
+        <div class="feature-icon fi-green"><i class="fa-solid fa-brain"></i></div>
+        <h3>Unified Scoring Engine</h3>
+        <p>8 core + 8 bonus scoring factors merged into a single score from -20 to +20. Includes Structure, EMA, Volume, Squeeze, Daily Trend, Session, AVWAP, and Candle Patterns.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-blue"><i class="fa-solid fa-filter"></i></div>
+        <h3>9-Factor Confluence</h3>
+        <p>Dynamic confluence filter requires multiple confirmations before any signal. Automatically adjusts thresholds based on the current market regime.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-accent"><i class="fa-solid fa-arrows-spin"></i></div>
+        <h3>Market Regime Detection</h3>
+        <p>Real-time identification of Trending, Ranging, Volatile, or Transitioning markets using ADX + ATR ratio. Adapts TP/SL/position sizing automatically.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-orange"><i class="fa-solid fa-scale-balanced"></i></div>
+        <h3>Wyckoff Effort vs Result</h3>
+        <p>Detects absorption and distribution events by comparing volume effort to price result. Extreme volume + weak body = institutional distribution signal.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-cyan"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+        <h3>Virtual Order Flow</h3>
+        <p>Wick-analysis-based order flow inference. Tracks institutional buying/selling pressure through a 50-bar rolling average of buy/sell absorption bars.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-red"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Risk Manager V1</h3>
+        <p>Dynamic ATR-based Stop Loss, 3 Take Profit targets, regime-adjusted position sizing, and built-in gap-down protection for the Egyptian market.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-green"><i class="fa-solid fa-shield-heart"></i></div>
+        <h3>★ Risk Manager V2</h3>
+        <p>10 advanced tools: Portfolio Heat, Circuit Breaker, Correlation Guard, Kelly Criterion, Smart Entry Zones, Volatility-Adjusted Exits, Expectancy Calculator, and more.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SCORING ═══ -->
+<section id="scoring" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-badge badge-accent"><i class="fa-solid fa-star-half-stroke"></i> Scoring System</div>
+    <h2 class="section-title">8-Factor Core Score (±12)</h2>
+    <p class="section-sub">Shared between the main indicator and the 20-symbol scanner. Mathematically consistent across all symbols.</p>
+    <div class="score-grid">
+      <div class="score-item reveal"><div class="score-val pos">±2</div><div class="score-info"><h4>Structure Direction</h4><p>Internal + External HH/HL or LH/LL</p></div></div>
+      <div class="score-item reveal"><div class="score-val pos">±1</div><div class="score-info"><h4>EMA Alignment</h4><p>Price > EMA20 > EMA50</p></div></div>
+      <div class="score-item reveal"><div class="score-val pos">±2</div><div class="score-info"><h4>Volume + Wyckoff</h4><p>RVOL levels with Effort vs Result</p></div></div>
+      <div class="score-item reveal"><div class="score-val pos">±2</div><div class="score-info"><h4>Squeeze Momentum</h4><p>Bollinger inside Keltner + fired direction</p></div></div>
+      <div class="score-item reveal"><div class="score-val pos">±2</div><div class="score-info"><h4>Daily Trend (MTF)</h4><p>SMA50 > SMA200 on Daily chart</p></div></div>
+      <div class="score-item reveal"><div class="score-val pos">±1</div><div class="score-info"><h4>Session Shield</h4><p>Smart Money hours vs Trap zones</p></div></div>
+      <div class="score-item reveal"><div class="score-val pos">±1</div><div class="score-info"><h4>AVWAP [V1]</h4><p>Price relative to Auto Anchored VWAP</p></div></div>
+      <div class="score-item reveal"><div class="score-val pos">±1</div><div class="score-info"><h4>Candle Patterns [V1]</h4><p>Engulfing, Hammer, Shooting Star</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SCANNER ═══ -->
+<section id="scanner">
+  <div class="section-inner">
+    <div class="section-badge badge-blue"><i class="fa-solid fa-satellite-dish"></i> Scanner</div>
+    <h2 class="section-title">20-Symbol Real-Time Scanner</h2>
+    <p class="section-sub">Scans 20 Shariah-compliant EGX stocks simultaneously using the exact same V1 algorithm with 40 explicit request.security calls.</p>
+    <div class="features" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+      <div class="feature reveal">
+        <div class="feature-icon fi-green"><i class="fa-solid fa-ranking-star"></i></div>
+        <h3>Signal Grading (A+ → D)</h3>
+        <p>Every stock receives a letter grade based on score + confluence intersection. A+ requires Score ≥7 and Confluence ≥4.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-blue"><i class="fa-solid fa-sort"></i></div>
+        <h3>Auto Sort by Score</h3>
+        <p>Dashboard automatically ranks all 20 stocks from highest to lowest score. Best opportunities always at the top.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-accent"><i class="fa-solid fa-chart-pie"></i></div>
+        <h3>Market Breadth</h3>
+        <p>Real-time aggregate view: bullish/bearish/neutral stock count, average score, and overall market sentiment (Risk ON/OFF).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEVELOPER ═══ -->
+<section id="developer" class="dev-section">
+  <div class="section-inner">
+    <div class="section-badge badge-accent"><i class="fa-solid fa-user-tie"></i> Developer</div>
+    <h2 class="section-title" style="margin-bottom:40px">Built by a PM who trades</h2>
+    <div class="dev-card reveal">
+      <div class="dev-photo"><img src="img/ahmed_fawzy.jpeg" alt="Ahmed Fawzy"></div>
+      <div class="dev-info">
+        <h3>Ahmed Mohammed Fawzy</h3>
+        <div class="role">PMP-Certified Project Manager & AI Algorithmic Trading Developer</div>
+        <p>13+ years in digital transformation. Combining project management expertise with AI programming and quantitative market analysis. Engineered CMD V1 using AI to transform SMC & Wyckoff concepts into high-precision automated trading algorithms.</p>
+        <div class="dev-links">
+          <a href="https://www.linkedin.com/in/ahmed-m-fawzy" target="_blank" class="btn-li"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+          <a href="mailto:Ahmed.m.fawzy@hotmail.com" class="btn-mail"><i class="fa-solid fa-envelope"></i> Email</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+  <div class="section-inner">
+    <h2 class="cta-title">Ready to <span style="color:var(--green)">upgrade</span> your trading?</h2>
+    <p class="cta-sub">Read the complete guide to understand every module, every score, and every signal.</p>
+    <div class="hero-ctas">
+      <a href="CMD_V1_Guide_EN.html" class="btn-primary"><i class="fa-solid fa-rocket"></i> English Guide</a>
+      <a href="CMD_V1_Guide_AR.html" class="btn-secondary"><i class="fa-solid fa-book-open"></i> الدليل بالعربي</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p><i class="fa-solid fa-microchip" style="color:var(--green)"></i> <strong style="color:var(--green)">Core Market Dynamics V1</strong> — © 2026 Ahmed Mohammed Fawzy</p>
+  <p class="warn"><i class="fa-solid fa-triangle-exclamation" style="color:var(--orange)"></i> <strong>Disclaimer:</strong> Trading involves significant risk. This indicator is an analytical tool based on mathematical algorithms and does not constitute financial advice. The developer is not responsible for any financial losses. Always manage your own risk.</p>
+</footer>
+
+<!-- ═══ JS ═══ -->
+<script>
+// Anti-copy + Anti-print
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&['p','P','c','C','u','U','s','S'].includes(e.key)){e.preventDefault();return false}});
+document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('cut',e=>e.preventDefault());
+
+// Nav scroll effect
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+
+// Intersection Observer — Reveal
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+</body>
+</html>
