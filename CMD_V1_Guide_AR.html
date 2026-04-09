@@ -219,7 +219,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   <a href="#wyckoff" data-s="wyckoff"><i class="fa-solid fa-scale-balanced"></i> 9. فلتر وايكوف</a>
   <a href="#backtester" data-s="backtester"><i class="fa-solid fa-chart-column"></i> 10. تتبع الأداء</a>
   <a href="#risk" data-s="risk"><i class="fa-solid fa-shield-halved"></i> 11. إدارة المخاطر</a>
-  <a href="#riskv2" data-s="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ Risk V2 المتقدمة</a>
+  <a href="#riskv2" data-s="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ إدارة المخاطر المتقدمة</a>
   <a href="#session" data-s="session"><i class="fa-regular fa-calendar-check"></i> 12. حماية الجلسة</a>
   <a href="#orderflow" data-s="orderflow"><i class="fa-solid fa-arrow-right-arrow-left"></i> 13. تدفق الأوامر</a>
   <a href="#zones" data-s="zones"><i class="fa-solid fa-layer-group"></i> 14. المناطق</a>
@@ -241,7 +241,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 <!-- ═══ HERO ═══ -->
 <div class="hero">
   <h1><i class="fa-solid fa-microchip" style="margin-left:10px;font-size:.8em"></i>Core Market Dynamics V1</h1>
-  <div class="sub">نظام التداول الخوارزمي المتكامل + Risk Manager V2</div>
+  <div class="sub">نظام التداول الخوارزمي المتكامل + إدارة المخاطر المتقدمة</div>
   <div class="ver">CMD V1 — SMC + Wyckoff + AVWAP + 10 أدوات إدارة مخاطر متقدمة</div>
   <div class="ver">تطوير: Ahmed Fawzy | 2026</div>
 </div>
@@ -254,7 +254,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   <h3>🗂 ملفات النظام</h3>
   <table>
     <tr><th>الملف</th><th>الوصف</th><th>الحجم</th></tr>
-    <tr><td><code>CoreMarketDynamicsV1.pine</code></td><td>المؤشر الرئيسي + Risk V2</td><td>~2400 سطر</td></tr>
+    <tr><td><code>CoreMarketDynamicsV1.pine</code></td><td>المؤشر الرئيسي + إدارة المخاطر</td><td>~2460 سطر</td></tr>
     <tr><td><code>CMD_V1_Scanner.pine</code></td><td>سكانر 20 سهم</td><td>~590 سطر</td></tr>
   </table>
 </div>
@@ -351,7 +351,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 <!-- ═══ 4. DASHBOARD ═══ -->
 <div class="page-break"></div>
 <h2 id="dashboard"><i class="fa-solid fa-gauge-high"></i> 4. لوحة التحكم</h2>
-<p>لوحة التحكم تعرض ملخص شامل لكل المؤشرات والفلاتر في جدول واحد أعلى يمين الشارت.</p>
+<p>لوحة التحكم بتستخدم <strong>تصميم جدولين</strong> لتوفير المساحة: <strong>Action Card</strong> (أعلى يمين) للحكم والسكور والدخول/وقف/هدف، و<strong>Analysis</strong> (أعلى شمال) لتفاصيل المؤشرات وإدارة المخاطر المتقدمة. الصفوف بتتدمج والقيم العادية بتتخفى تلقائياً.</p>
 <div class="img-box"><img src="img/dashboard.png" alt="لوحة التحكم"><div class="img-cap">مثال على لوحة التحكم — Grade A+, Score 92, Confluence 5/9, Win Rate 80%</div></div>
 <div style="text-align:center;margin:-10px 0 16px;padding:6px 14px;border-radius:8px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);display:inline-block;font-size:.78em;color:var(--orange)"><i class="fa-solid fa-wand-magic-sparkles"></i> ⚠️ الصور تم توليدها بالذكاء الاصطناعي وقد تختلف عن الشكل الفعلي للمؤشر على TradingView</div>
 <table>
@@ -379,10 +379,10 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   <p>لو الداشبورد طويلة ومش ظاهرة كلها، استخدم <strong>Dashboard View</strong> — أول إعداد في المؤشر — للتبديل بين 4 أوضاع:</p>
   <table>
     <tr><th>الوضع</th><th>المحتوى</th><th>~الصفوف</th><th>متى تستخدمه</th></tr>
-    <tr><td><span class="badge green">Compact</span></td><td>Verdict + Score + Entry/SL/TP + Shares/R:R</td><td>~12</td><td>أثناء التنفيذ — أهم الأرقام بس</td></tr>
-    <tr><td><span class="badge blue">Analysis</span></td><td>Score + Confluence + Regime + كل المؤشرات (بدون Risk V2)</td><td>~20</td><td>تحليل السوق — قبل الدخول</td></tr>
-    <tr><td><span class="badge orange">Risk</span></td><td>Entry/SL/TP + Shares/R:R + Smart Entry + V2 Advanced</td><td>~25</td><td>إدارة المخاطر بالتفصيل</td></tr>
-    <tr><td><span class="badge yellow">Full</span></td><td>كل حاجة (الوضع الافتراضي)</td><td>~40+</td><td>شاشات كبيرة — كل البيانات</td></tr>
+    <tr><td><span class="badge green">Compact</span></td><td>Verdict + Score + Entry/SL/TP (جدول يمين بس)</td><td>~12</td><td>أثناء التنفيذ — أهم الأرقام بس</td></tr>
+    <tr><td><span class="badge blue">Analysis</span></td><td>Score + Confluence (يمين) + كل المؤشرات (جدول شمال)</td><td>~6+15</td><td>تحليل السوق — قبل الدخول</td></tr>
+    <tr><td><span class="badge orange">Risk</span></td><td>كارت المخاطر كامل (يمين) + أدوات متقدمة (شمال)</td><td>~14+10</td><td>إدارة المخاطر بالتفصيل</td></tr>
+    <tr><td><span class="badge yellow">Full</span></td><td>كل حاجة — الجدولين كاملين</td><td>~14+20</td><td>شاشات كبيرة — كل البيانات</td></tr>
   </table>
   <p style="margin-top:10px"><strong>Tip:</strong> ابدأ بـ <code>Analysis</code> لتقييم السهم، ثم بدّل لـ <code>Compact</code> أثناء التنفيذ.</p>
 </div>
@@ -540,7 +540,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 
 <!-- ═══ RISK V2 ═══ -->
 <div class="page-break"></div>
-<h2 id="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ إدارة المخاطر المتقدمة V2</h2>
+<h2 id="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ إدارة المخاطر المتقدمة</h2>
 <p>10 أدوات متقدمة تعمل <strong>تلقائياً</strong> لحماية رأس المال وتحسين الأداء — مصممة خصيصاً للبورصة المصرية (EGX).</p>
 
 <div class="card green">
@@ -768,7 +768,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   </table>
 </div>
 <div class="card red">
-  <h3>🛡️ إعدادات Risk V2</h3>
+  <h3>🛡️ إعدادات إدارة المخاطر المتقدمة</h3>
   <table>
     <tr><th>الإعداد</th><th>الافتراضي</th><th>الوصف</th></tr>
     <tr><td>Portfolio Heat Map</td><td>✅</td><td>Track total open risk</td></tr>

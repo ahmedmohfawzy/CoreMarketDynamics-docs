@@ -219,7 +219,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   <a href="#wyckoff" data-s="wyckoff"><i class="fa-solid fa-scale-balanced"></i> 9. Wyckoff Filter</a>
   <a href="#backtester" data-s="backtester"><i class="fa-solid fa-chart-column"></i> 10. Backtester</a>
   <a href="#risk" data-s="risk"><i class="fa-solid fa-shield-halved"></i> 11. Risk Manager</a>
-  <a href="#riskv2" data-s="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ Risk V2 Advanced</a>
+  <a href="#riskv2" data-s="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ Advanced Risk</a>
   <a href="#session" data-s="session"><i class="fa-regular fa-calendar-check"></i> 12. Session Shield</a>
   <a href="#orderflow" data-s="orderflow"><i class="fa-solid fa-arrow-right-arrow-left"></i> 13. Order Flow</a>
   <a href="#zones" data-s="zones"><i class="fa-solid fa-layer-group"></i> 14. Zones</a>
@@ -241,7 +241,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 <!-- ═══ HERO ═══ -->
 <div class="hero">
   <h1><i class="fa-solid fa-microchip" style="margin-right:10px;font-size:.8em"></i>Core Market Dynamics V1</h1>
-  <div class="sub">Algorithmic Trading System + Risk Manager V2</div>
+  <div class="sub">Algorithmic Trading System + Advanced Risk Manager</div>
   <div class="ver">CMD V1 — SMC + Wyckoff + AVWAP + 10 Advanced Risk Tools</div>
   <div class="ver">Developed by Ahmed Fawzy | 2026</div>
 </div>
@@ -254,7 +254,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   <h3>🗂 System Files</h3>
   <table>
     <tr><th>File</th><th>Description</th><th>Size</th></tr>
-    <tr><td><code>CoreMarketDynamicsV1.pine</code></td><td>Main Indicator + Risk V2</td><td>~2400 lines</td></tr>
+    <tr><td><code>CoreMarketDynamicsV1.pine</code></td><td>Main Indicator + Risk Manager</td><td>~2460 lines</td></tr>
     <tr><td><code>CMD_V1_Scanner.pine</code></td><td>20-Symbol Scanner</td><td>~590 lines</td></tr>
   </table>
 </div>
@@ -351,7 +351,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 <!-- ═══ 4. DASHBOARD ═══ -->
 <div class="page-break"></div>
 <h2 id="dashboard"><i class="fa-solid fa-gauge-high"></i> 4. Dashboard</h2>
-<p>The dashboard displays a comprehensive summary of all indicators and filters in a single table at the top-right of the chart.</p>
+<p>The dashboard uses a <strong>dual-table layout</strong> to maximize screen space: an <strong>Action Card</strong> (top-right) for verdict, score, and entry/SL/TP, and an <strong>Analysis panel</strong> (top-left) for indicator details and advanced risk. Rows are merged and normal values are auto-hidden to keep it compact.</p>
 <div class="img-box"><img src="img/dashboard.png" alt="Dashboard"><div class="img-cap">Dashboard Preview — Grade A+, Score 92, Confluence 5/9, Win Rate 80%</div></div>
 <div style="text-align:center;margin:-10px 0 16px;padding:6px 14px;border-radius:8px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);display:inline-block;font-size:.78em;color:var(--orange)"><i class="fa-solid fa-wand-magic-sparkles"></i> ⚠️ Images are AI-generated and may differ from the actual indicator appearance on TradingView</div>
 <table>
@@ -379,10 +379,10 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   <p>If the dashboard is too long for your screen, use <strong>Dashboard View</strong> — the very first setting in the indicator — to switch between 4 modes:</p>
   <table>
     <tr><th>Mode</th><th>Content</th><th>~Rows</th><th>When to Use</th></tr>
-    <tr><td><span class="badge green">Compact</span></td><td>Verdict + Score + Entry/SL/TP + Shares/R:R</td><td>~12</td><td>During execution — key numbers only</td></tr>
-    <tr><td><span class="badge blue">Analysis</span></td><td>Score + Confluence + Regime + all indicators (no Risk V2)</td><td>~20</td><td>Market analysis — before entry</td></tr>
-    <tr><td><span class="badge orange">Risk</span></td><td>Entry/SL/TP + Shares/R:R + Smart Entry + V2 Advanced</td><td>~25</td><td>Detailed risk management</td></tr>
-    <tr><td><span class="badge yellow">Full</span></td><td>Everything (default mode)</td><td>~40+</td><td>Large screens — all data visible</td></tr>
+    <tr><td><span class="badge green">Compact</span></td><td>Verdict + Score + Entry/SL/TP (right table only)</td><td>~12</td><td>During execution — key numbers only</td></tr>
+    <tr><td><span class="badge blue">Analysis</span></td><td>Score + Confluence (right) + All indicators (left table)</td><td>~6+15</td><td>Market analysis — before entry</td></tr>
+    <tr><td><span class="badge orange">Risk</span></td><td>Full risk card (right) + Advanced tools (left)</td><td>~14+10</td><td>Detailed risk management</td></tr>
+    <tr><td><span class="badge yellow">Full</span></td><td>Everything — both tables fully populated</td><td>~14+20</td><td>Large screens — all data visible</td></tr>
   </table>
   <p style="margin-top:10px"><strong>Tip:</strong> Start with <code>Analysis</code> to evaluate the stock, then switch to <code>Compact</code> during execution.</p>
 </div>
@@ -540,7 +540,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 
 <!-- ═══ RISK V2 ═══ -->
 <div class="page-break"></div>
-<h2 id="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ Advanced Risk Manager V2</h2>
+<h2 id="riskv2"><i class="fa-solid fa-shield-heart"></i> ★ Advanced Risk Manager</h2>
 <p>10 advanced tools that work <strong>automatically</strong> to protect capital and optimize performance — purpose-built for EGX.</p>
 
 <div class="card green">
