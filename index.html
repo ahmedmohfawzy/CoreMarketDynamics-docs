@@ -205,9 +205,32 @@ section{padding:100px 40px;position:relative;z-index:1}
 .cta-sub{font-size:1.1em;color:var(--muted);max-width:550px;margin:0 auto 36px}
 
 /* ══ FOOTER ══ */
-footer{padding:40px;text-align:center;border-top:1px solid var(--border);background:var(--bg)}
-footer p{font-size:.82em;color:var(--muted)}
-footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;line-height:1.6}
+footer{padding:0;border-top:1px solid var(--border);background:var(--bg);position:relative;z-index:1}
+.footer-inner{max-width:1000px;margin:0 auto;padding:50px 40px 30px}
+.footer-row1{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;margin-bottom:30px;flex-wrap:wrap}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.footer-brand i{color:var(--green);font-size:1.2em}
+.footer-brand strong{color:var(--green);font-size:1.1em}
+.footer-tagline{color:var(--muted);font-size:.82em;max-width:300px;line-height:1.6}
+.footer-links{display:flex;gap:40px;flex-wrap:wrap}
+.footer-links-col h4{color:var(--text);font-size:.78em;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+.footer-links-col a{display:block;color:var(--muted);text-decoration:none;font-size:.85em;padding:4px 0;transition:color .2s}
+.footer-links-col a:hover{color:var(--green)}
+.footer-links-col a.soon-link{opacity:0.5;cursor:not-allowed}
+.footer-divider{height:1px;background:var(--border);margin:20px 0}
+.footer-row2{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:.9em;transition:all .3s}
+.footer-social a:hover{background:var(--green-dim);border-color:var(--green);color:var(--green);transform:translateY(-2px)}
+.footer-copy{color:var(--muted);font-size:.8em}
+.footer-warn{color:#787b86;font-size:.72em;max-width:700px;margin:16px auto 0;text-align:center;line-height:1.6;padding-top:16px;border-top:1px solid var(--border)}
+@media(max-width:768px){
+  .footer-inner{padding:30px 20px 20px}
+  .footer-row1{flex-direction:column;gap:24px}
+  .footer-links{gap:24px}
+  .footer-row2{flex-direction:column;text-align:center}
+}
 
 /* ══ REVEAL ══ */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
@@ -475,8 +498,36 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
 
 <!-- ═══ FOOTER ═══ -->
 <footer>
-  <p><i class="fa-solid fa-microchip" style="color:var(--green)"></i> <strong style="color:var(--green)">Core Market Dynamics V1</strong> — © 2026 Ahmed Mohammed Fawzy</p>
-  <p class="warn"><i class="fa-solid fa-triangle-exclamation" style="color:var(--orange)"></i> <strong>Disclaimer:</strong> Trading involves significant risk. This indicator is an analytical tool based on mathematical algorithms and does not constitute financial advice. The developer is not responsible for any financial losses. Always manage your own risk.</p>
+  <div class="footer-inner">
+    <div class="footer-row1">
+      <div>
+        <div class="footer-brand"><i class="fa-solid fa-microchip"></i> <strong>Core Market Dynamics V1</strong></div>
+        <p class="footer-tagline">The smartest algorithmic trading system on TradingView — purpose-built for the Egyptian Exchange.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-col">
+          <h4>Resources</h4>
+          <a href="CMD_V1_Guide_EN.html">📖 English Guide</a>
+          <a href="CMD_V1_Guide_AR.html">📖 الدليل العربي</a>
+          <a href="CMD_PortfolioTool.html">💼 Portfolio Tool</a>
+        </div>
+        <div class="footer-links-col">
+          <h4>Video Library</h4>
+          <a href="CMD_Masterclass_AR.html">🎬 Arabic Masterclass</a>
+          <a href="#" class="soon-link" onclick="event.preventDefault()">🎬 English (Soon)</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-row2">
+      <span class="footer-copy">© 2026 Ahmed Mohammed Fawzy. All Rights Reserved.</span>
+      <div class="footer-social">
+        <a href="mailto:Ahmed.m.fawzy@hotmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.linkedin.com/in/ahmed-m-fawzy" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      </div>
+    </div>
+    <p class="footer-warn"><i class="fa-solid fa-triangle-exclamation" style="color:var(--orange)"></i> <strong>Disclaimer:</strong> Trading involves significant risk. This indicator is an analytical tool based on mathematical algorithms and does not constitute financial advice. The developer is not responsible for any financial losses. Always manage your own risk.</p>
+  </div>
 </footer>
 
 <!-- ═══ JS ═══ -->
