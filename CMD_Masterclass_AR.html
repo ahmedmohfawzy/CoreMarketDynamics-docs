@@ -1,273 +1,592 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مكتبة فيديو CMD — الشرح المرئي</title>
-<meta name="description" content="مكتبة فيديوهات الشرح لمنظومة Core Market Dynamics">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
-<style>
-:root {
-  --bg: #0b1120; --card: rgba(17,24,39,0.7); --card-solid: #111827;
-  --border: rgba(255,255,255,0.08); --border-hover: rgba(255,255,255,0.15);
-  --green: #34d399; --green-dim: rgba(52,211,153,0.15);
-  --accent: #818cf8; --accent-dim: rgba(129,140,248,0.15);
-  --text: #e2e8f0; --muted: #94a3b8;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Cairo','Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(800px at 20% 20%,rgba(52,211,153,.04),transparent 60%),
-             radial-gradient(600px at 80% 80%,rgba(129,140,248,.03),transparent 60%)}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مكتبة فيديو CMD — الشرح المرئي</title>
+  <meta name="description" content="مكتبة فيديوهات الشرح لمنظومة Core Market Dynamics">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous">
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: rgba(17, 24, 39, 0.7);
+      --card-solid: #111827;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --green: #34d399;
+      --green-dim: rgba(52, 211, 153, 0.15);
+      --accent: #818cf8;
+      --accent-dim: rgba(129, 140, 248, 0.15);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
 
-/* ══ NAV ══ */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(11,17,32,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);transition:all .3s}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-icon{width:36px;height:36px;border-radius:10px;
-  background:linear-gradient(135deg,var(--green),#10b981);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1em;font-weight:900;color:var(--bg)}
-.logo-text{font-size:1.1em;font-weight:800;color:var(--text);font-family:'Inter',sans-serif}
-.logo-text span{color:var(--green)}
-.nav-links{display:flex;gap:16px;align-items:center}
-.nav-btn{padding:8px 22px;border-radius:10px;font-size:.85em;font-weight:700;text-decoration:none;
-  background:transparent;color:var(--text);border:1px solid var(--border);
-  transition:all .3s;display:inline-flex;align-items:center;gap:8px}
-.nav-btn:hover{background:var(--card-solid);border-color:var(--green)}
-.btn-primary{background:linear-gradient(135deg,var(--green),#10b981);color:var(--bg);border:none}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(52,211,153,.3)}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
 
-/* ══ HERO ══ */
-.hero{padding:120px 40px 60px;text-align:center;position:relative;z-index:1;max-width:900px;margin:0 auto}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:20px;font-size:.85em;font-weight:700;
-  background:var(--accent-dim);color:var(--accent);border:1px solid rgba(129,140,248,.3);margin-bottom:24px}
-.hero h1{font-size:3em;font-weight:900;margin-bottom:16px;background:linear-gradient(135deg,var(--green),var(--accent));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:1.1em;color:var(--muted);max-width:650px;margin:0 auto}
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column
+    }
 
-/* ══ GRID ══ */
-.container{flex:1;max-width:1200px;margin:0 auto;padding:0 40px 100px;position:relative;z-index:1;width:100%}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
-.card{background:var(--card);backdrop-filter:blur(14px);border:1px solid var(--border);
-  border-radius:20px;padding:30px;position:relative;overflow:hidden;transition:all .4s ease;
-  display:flex;flex-direction:column;cursor:pointer}
-.card:hover{transform:translateY(-5px);border-color:var(--green);box-shadow:0 10px 40px rgba(52,211,153,.1)}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,var(--green),var(--accent));opacity:0;transition:opacity .4s}
-.card:hover::before{opacity:1}
-.unit-badge{background:var(--card-solid);color:var(--green);padding:6px 14px;border-radius:12px;
-  font-size:.8em;font-weight:800;border:1px solid var(--border);align-self:flex-start;margin-bottom:16px;
-  display:flex;align-items:center;gap:6px}
-.card h3{font-size:1.25em;font-weight:800;margin-bottom:10px;color:var(--text);flex:1}
-.card p{font-size:.9em;color:var(--muted);margin-bottom:24px;line-height:1.6}
-.play-btn{width:100%;padding:12px;border-radius:12px;background:var(--green-dim);color:var(--green);
-  border:1px solid rgba(52,211,153,.3);font-size:.95em;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .3s}
-.card:hover .play-btn{background:var(--green);color:var(--bg)}
-.play-btn i{font-size:1.1em}
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(800px at 20% 20%, rgba(52, 211, 153, .04), transparent 60%),
+        radial-gradient(600px at 80% 80%, rgba(129, 140, 248, .03), transparent 60%)
+    }
 
-/* ══ MODAL ══ */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:9999;
-  display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.modal.active{opacity:1;pointer-events:all}
-.modal-content{width:90%;max-width:1000px;background:var(--bg);border-radius:20px;
-  border:1px solid var(--border);position:relative;overflow:hidden;
-  transform:scale(0.95);transition:transform .3s;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.modal.active .modal-content{transform:scale(1)}
-.close-btn{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;
-  background:rgba(255,255,255,.1);color:#fff;border:none;font-size:1.5em;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;z-index:10;transition:all .2s;backdrop-filter:blur(4px)}
-.close-btn:hover{background:var(--red);transform:rotate(90deg)}
-.ratio-wrapper{position:relative;width:100%;padding-top:56.25%} /* 16:9 Aspect Ratio */
-.ratio-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+    /* ══ NAV ══ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(11, 17, 32, .8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all .3s
+    }
 
-/* ══ RESPONSIVE ══ */
-@media(max-width:768px){
-  nav{padding:12px 20px}
-  .nav-links span{display:none} /* Hide text on mobile nav, keep icons */
-  .hero{padding:100px 20px 40px}
-  .hero h1{font-size:2.2em}
-  .container{padding:0 20px 60px}
-  .card{padding:20px}
-  .modal-content{width:100%;height:100%;border-radius:0;border:none}
-  .ratio-wrapper{padding-top:0;height:100vh}
-  .close-btn{top:20px;left:20px;background:var(--red)}
-}
-</style>
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--green), #10b981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1em;
+      font-weight: 900;
+      color: var(--bg)
+    }
+
+    .logo-text {
+      font-size: 1.1em;
+      font-weight: 800;
+      color: var(--text);
+      font-family: 'Inter', sans-serif
+    }
+
+    .logo-text span {
+      color: var(--green)
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      align-items: center
+    }
+
+    .nav-btn {
+      padding: 8px 22px;
+      border-radius: 10px;
+      font-size: .85em;
+      font-weight: 700;
+      text-decoration: none;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      transition: all .3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .nav-btn:hover {
+      background: var(--card-solid);
+      border-color: var(--green)
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green), #10b981);
+      color: var(--bg);
+      border: none
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(52, 211, 153, .3)
+    }
+
+    /* ══ HERO ══ */
+    .hero {
+      padding: 120px 40px 60px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: .85em;
+      font-weight: 700;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(129, 140, 248, .3);
+      margin-bottom: 24px
+    }
+
+    .hero h1 {
+      font-size: 3em;
+      font-weight: 900;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--green), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hero p {
+      font-size: 1.1em;
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0 auto
+    }
+
+    /* ══ GRID ══ */
+    .container {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 100px;
+      position: relative;
+      z-index: 1;
+      width: 100%
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      transition: all .4s ease;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--green);
+      box-shadow: 0 10px 40px rgba(52, 211, 153, .1)
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green), var(--accent));
+      opacity: 0;
+      transition: opacity .4s
+    }
+
+    .card:hover::before {
+      opacity: 1
+    }
+
+    .unit-badge {
+      background: var(--card-solid);
+      color: var(--green);
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: .8em;
+      font-weight: 800;
+      border: 1px solid var(--border);
+      align-self: flex-start;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .card h3 {
+      font-size: 1.25em;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text);
+      flex: 1
+    }
+
+    .card p {
+      font-size: .9em;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.6
+    }
+
+    .play-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(52, 211, 153, .3);
+      font-size: .95em;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all .3s
+    }
+
+    .card:hover .play-btn {
+      background: var(--green);
+      color: var(--bg)
+    }
+
+    .play-btn i {
+      font-size: 1.1em
+    }
+
+    /* ══ MODAL ══ */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .85);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 1000px;
+      background: var(--bg);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform .3s;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .5)
+    }
+
+    .modal.active .modal-content {
+      transform: scale(1)
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .1);
+      color: #fff;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all .2s;
+      backdrop-filter: blur(4px)
+    }
+
+    .close-btn:hover {
+      background: var(--red);
+      transform: rotate(90deg)
+    }
+
+    .ratio-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%
+    }
+
+    /* 16:9 Aspect Ratio */
+    .ratio-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media(max-width:768px) {
+      nav {
+        padding: 12px 20px
+      }
+
+      .nav-links span {
+        display: none
+      }
+
+      /* Hide text on mobile nav, keep icons */
+      .hero {
+        padding: 100px 20px 40px
+      }
+
+      .hero h1 {
+        font-size: 2.2em
+      }
+
+      .container {
+        padding: 0 20px 60px
+      }
+
+      .card {
+        padding: 20px
+      }
+
+      .modal-content {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        border: none
+      }
+
+      .ratio-wrapper {
+        padding-top: 0;
+        height: 100vh
+      }
+
+      .close-btn {
+        top: 20px;
+        left: 20px;
+        background: var(--red)
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ═══ NAV ═══ -->
-<nav>
-  <a href="index.html" class="logo">
-    <div class="logo-icon"><i class="fa-solid fa-microchip"></i></div>
-    <div class="logo-text" style="font-family:'Cairo',sans-serif;font-weight:900">مكتبة فيديوهات <span>CMD</span></div>
-  </a>
-  <div class="nav-links">
-    <a href="index.html" class="nav-btn"><i class="fa-solid fa-house"></i> <span>الرئيسية</span></a>
-    <a href="CMD_V1_Guide_AR.html" class="nav-btn btn-primary"><i class="fa-solid fa-book-open"></i> <span>الدليل المقروء</span></a>
-  </div>
-</nav>
-
-<!-- ═══ HERO ═══ -->
-<section class="hero">
-  <div class="hero-badge"><i class="fa-solid fa-play"></i> Video Library</div>
-  <h1>المكتبة الصوتية والمرئية</h1>
-  <p>شاهد واستمع للدليل الإرشادي الكامل لمنظومة Core Market Dynamics مقسماً على 10 فيديوهات تغطي كل زوايا النظام باحترافية.</p>
-</section>
-
-<!-- ═══ GRID ═══ -->
-<div class="container">
-  <div class="grid">
-    
-    <!-- الوحدة 1 -->
-    <div class="card" onclick="openPlayer(0)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 1</div>
-      <h3>فلسفة Core Market Dynamics</h3>
-      <p>فلسفة النظام والتخلص من الضوضاء، الفرق بين السكور الأساسي والإضافي الأساسي لتصنيف قوة الإشارات.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+  <!-- ═══ NAV ═══ -->
+  <nav>
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-microchip"></i></div>
+      <div class="logo-text" style="font-family:'Cairo',sans-serif;font-weight:900">مكتبة فيديوهات <span>CMD</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn"><i class="fa-solid fa-house"></i> <span>الرئيسية</span></a>
+      <a href="CMD_V1_Guide_AR.html" class="nav-btn btn-primary"><i class="fa-solid fa-book-open"></i> <span>الدليل
+          المقروء</span></a>
     </div>
+  </nav>
 
-    <!-- الوحدة 2 -->
-    <div class="card" onclick="openPlayer(1)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 2</div>
-      <h3>تشريح حركة السعر مع CMD</h3>
-      <p>دراسة الهيكل الداخلي والخارجي، وتقاطعات المتوسطات المتحركة (EMA) كمؤشرات لزخم الاتجاه.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-badge"><i class="fa-solid fa-play"></i> Video Library</div>
+    <h1>المكتبة الصوتية والمرئية</h1>
+    <p>شاهد واستمع للدليل الإرشادي الكامل لمنظومة Core Market Dynamics مقسماً على 10 فيديوهات تغطي كل زوايا النظام
+      باحترافية.</p>
+  </section>
 
-    <!-- الوحدة 3 -->
-    <div class="card" onclick="openPlayer(2)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 3</div>
-      <h3>أسرار الفوليوم ووايكوف</h3>
-      <p>اكتشاف فخاخ التصريف والامتصاص عن طريق تحليل أحجام التداول (الجهد مقابل النتيجة).</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+  <!-- ═══ GRID ═══ -->
+  <div class="container">
+    <div class="grid">
 
-    <!-- الوحدة 4 -->
-    <div class="card" onclick="openPlayer(3)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 4</div>
-      <h3>ضغط السيولة توقع الانفجارات السعرية</h3>
-      <p>كيف تتنبأ بالانفجارات السعرية العنيفة باستخدام تداخل البولينجر باند وحزم الكلتنر.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+      <!-- الوحدة 1 -->
+      <div class="card" onclick="openPlayer(0)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 1</div>
+        <h3>فلسفة Core Market Dynamics</h3>
+        <p>فلسفة النظام والتخلص من الضوضاء، الفرق بين السكور الأساسي والإضافي الأساسي لتصنيف قوة الإشارات.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
 
-    <!-- الوحدة 5 -->
-    <div class="card" onclick="openPlayer(4)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 5</div>
-      <h3>تتبع صناع السوق تدفق الأوامر</h3>
-      <p>تحليل السيولة من الذيول لاكتشاف مناطق العرض والطلب المتدفقة المؤسسية قبل حدوث الانعكاس.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+      <!-- الوحدة 2 -->
+      <div class="card" onclick="openPlayer(1)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 2</div>
+        <h3>تشريح حركة السعر مع CMD</h3>
+        <p>دراسة الهيكل الداخلي والخارجي، وتقاطعات المتوسطات المتحركة (EMA) كمؤشرات لزخم الاتجاه.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
 
-    <!-- الوحدة 6 -->
-    <div class="card" onclick="openPlayer(5)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 6</div>
-      <h3>تداول البورصة توقيت وتسعير</h3>
-      <p>شرح دورات الجلسة المصرية والمزادات وفخاخ التحرك الوهمي لتسجيل أفضل وقت للربح.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+      <!-- الوحدة 3 -->
+      <div class="card" onclick="openPlayer(2)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 3</div>
+        <h3>أسرار الفوليوم ووايكوف</h3>
+        <p>اكتشاف فخاخ التصريف والامتصاص عن طريق تحليل أحجام التداول (الجهد مقابل النتيجة).</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
 
-    <!-- الوحدة 7 -->
-    <div class="card" onclick="openPlayer(6)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 7</div>
-      <h3>التقاطع الديناميكي وأنظمة السوق</h3>
-      <p>كيف يقرأ النظام حالة السوق (اتجاهي أو متذبذب) ويغير صرامة شروط الدخول بشكل تلقائي.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+      <!-- الوحدة 4 -->
+      <div class="card" onclick="openPlayer(3)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 4</div>
+        <h3>ضغط السيولة توقع الانفجارات السعرية</h3>
+        <p>كيف تتنبأ بالانفجارات السعرية العنيفة باستخدام تداخل البولينجر باند وحزم الكلتنر.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
 
-    <!-- الوحدة 8 -->
-    <div class="card" onclick="openPlayer(7)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 8</div>
-      <h3>سكانر غرفة التحكم إتقان ٢٠ سهم</h3>
-      <p>مراقبة أكثر من 20 سهماً بدقة في نفس اللحظة عبر السكانر واستخدام التنبيهات الذكية المجمعة.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+      <!-- الوحدة 5 -->
+      <div class="card" onclick="openPlayer(4)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 5</div>
+        <h3>تتبع صناع السوق تدفق الأوامر</h3>
+        <p>تحليل السيولة من الذيول لاكتشاف مناطق العرض والطلب المتدفقة المؤسسية قبل حدوث الانعكاس.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
 
-    <!-- الوحدة 9 -->
-    <div class="card" onclick="openPlayer(8)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 9</div>
-      <h3>قياس أداء نظام التداول</h3>
-      <p>كيف تحلل نسب النجاح، العائد، وتحكم على الصفقات المتتالية السابقة باستخدام لوحة الاختبار.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+      <!-- الوحدة 6 -->
+      <div class="card" onclick="openPlayer(5)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 6</div>
+        <h3>تداول البورصة توقيت وتسعير</h3>
+        <p>شرح دورات الجلسة المصرية والمزادات وفخاخ التحرك الوهمي لتسجيل أفضل وقت للربح.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
 
-    <!-- الوحدة 10 -->
-    <div class="card" onclick="openPlayer(9)">
-      <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 10</div>
-      <h3>حماية رأس المال استراتيجية الطوارئ</h3>
-      <p>شرح قاطع الدائرة وحماية رأس المال عبر الأداة المتطورة (Portfolio Tool) وخطط الطوارئ.</p>
-      <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
-    </div>
+      <!-- الوحدة 7 -->
+      <div class="card" onclick="openPlayer(6)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 7</div>
+        <h3>التقاطع الديناميكي وأنظمة السوق</h3>
+        <p>كيف يقرأ النظام حالة السوق (اتجاهي أو متذبذب) ويغير صرامة شروط الدخول بشكل تلقائي.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
 
-  </div>
-</div>
+      <!-- الوحدة 8 -->
+      <div class="card" onclick="openPlayer(7)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 8</div>
+        <h3>سكانر غرفة التحكم إتقان ٢٠ سهم</h3>
+        <p>مراقبة أكثر من 20 سهماً بدقة في نفس اللحظة عبر السكانر واستخدام التنبيهات الذكية المجمعة.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
 
-<!-- ═══ MODAL ═══ -->
-<div class="modal" id="vidModal">
-  <div class="modal-content">
-    <button class="close-btn" onclick="closePlayer()"><i class="fa-solid fa-xmark"></i></button>
-    <div class="ratio-wrapper">
-      <iframe id="ytPlayer" src="" allowfullscreen title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+      <!-- الوحدة 9 -->
+      <div class="card" onclick="openPlayer(8)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 9</div>
+        <h3>قياس أداء نظام التداول</h3>
+        <p>كيف تحلل نسب النجاح، العائد، وتحكم على الصفقات المتتالية السابقة باستخدام لوحة الاختبار.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
+
+      <!-- الوحدة 10 -->
+      <div class="card" onclick="openPlayer(9)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> الوحدة 10</div>
+        <h3>حماية رأس المال استراتيجية الطوارئ</h3>
+        <p>شرح قاطع الدائرة وحماية رأس المال عبر الأداة المتطورة (Portfolio Tool) وخطط الطوارئ.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> تشغيل الحلقة</button>
+      </div>
+
     </div>
   </div>
-</div>
 
-<script>
-// Exact Video IDs from the YouTube Playlist
-const videoIDs = [
-  "TjU_CcLy0Jc", // الوحدة 1
-  "2SEr6oS688A", // الوحدة 2
-  "k16Wo4V5gH8", // الوحدة 3
-  "lcx7GKSQ93E", // الوحدة 4
-  "DVeQ3YpgaVI", // الوحدة 5
-  "2M-VQo7lIUw", // الوحدة 6
-  "8TED18OPVc0", // الوحدة 7
-  "W2Sf0eUgeCU", // الوحدة 8
-  "NfhYH-Pswxc", // الوحدة 9
-  "I4DVR_jUk64"  // الوحدة 10
-];
+  <!-- ═══ MODAL ═══ -->
+  <div class="modal" id="vidModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closePlayer()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="ratio-wrapper">
+        <iframe id="ytPlayer" src="" allowfullscreen title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+      </div>
+    </div>
+  </div>
 
-function openPlayer(index) {
-  const modal = document.getElementById('vidModal');
-  const player = document.getElementById('ytPlayer');
-  
-  // Embed specific video directly. 
-  // Safari strictly blocks autoplay unless muted, so removing autoplay to ensure compatibility across all browsers.
-  player.src = `https://www.youtube.com/embed/${videoIDs[index]}?rel=0`;
-  
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden'; // Stop background scrolling
-}
+  <script>
+    // Exact Video IDs from the YouTube Playlist
+    const videoIDs = [
+      "TjU_CcLy0Jc", // الوحدة 1
+      "2SEr6oS688A", // الوحدة 2
+      "k16Wo4V5gH8", // الوحدة 3
+      "lcx7GKSQ93E", // الوحدة 4
+      "DVeQ3YpgaVI", // الوحدة 5
+      "2M-VQo7lIUw", // الوحدة 6
+      "8TED18OPVc0", // الوحدة 7
+      "W2Sf0eUgeCU", // الوحدة 8
+      "NfhYH-Pswxc", // الوحدة 9
+      "I4DVR_jUk64"  // الوحدة 10
+    ];
 
-function closePlayer() {
-  const modal = document.getElementById('vidModal');
-  const player = document.getElementById('ytPlayer');
-  
-  modal.classList.remove('active');
-  player.src = ''; // Stop video playback
-  document.body.style.overflow = '';
-}
+    function openPlayer(index) {
+      const modal = document.getElementById('vidModal');
+      const player = document.getElementById('ytPlayer');
 
-// Close modal on outside click or ESC key
-document.getElementById('vidModal').addEventListener('click', function(e) {
-  if (e.target === this) closePlayer();
-});
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape' && document.getElementById('vidModal').classList.contains('active')) {
-    closePlayer();
-  }
-});
+      // Embed specific video directly. 
+      player.src = `https://www.youtube.com/embed/${videoIDs[index]}?autoplay=1&rel=0`;
 
-// Anti-copy + Anti-print
-document.addEventListener('contextmenu',e=>e.preventDefault());
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&['p','P','c','C','u','U','s','S'].includes(e.key)){e.preventDefault();return false}});
-document.addEventListener('copy',e=>e.preventDefault());
-</script>
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Stop background scrolling
+    }
+
+    function closePlayer() {
+      const modal = document.getElementById('vidModal');
+      const player = document.getElementById('ytPlayer');
+
+      modal.classList.remove('active');
+      player.src = ''; // Stop video playback
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on outside click or ESC key
+    document.getElementById('vidModal').addEventListener('click', function (e) {
+      if (e.target === this) closePlayer();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.getElementById('vidModal').classList.contains('active')) {
+        closePlayer();
+      }
+    });
+
+    // Anti-copy + Anti-print
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && ['p', 'P', 'c', 'C', 'u', 'U', 's', 'S'].includes(e.key)) { e.preventDefault(); return false } });
+    document.addEventListener('copy', e => e.preventDefault());
+  </script>
 
 </body>
+
 </html>
