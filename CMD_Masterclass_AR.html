@@ -530,6 +530,14 @@
     <div class="modal-content">
       <button class="close-btn" onclick="closePlayer()"><i class="fa-solid fa-xmark"></i></button>
       <div class="ratio-wrapper">
+        <!-- Step 1: Lightweight thumbnail (loads instantly) -->
+        <div id="ytThumb" style="position:absolute;inset:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#000;background-size:cover;background-position:center;z-index:5" onclick="activatePlayer()">
+          <div style="width:80px;height:80px;background:rgba(255,0,0,0.85);border-radius:20px;display:flex;align-items:center;justify-content:center;transition:transform .3s,background .3s">
+            <i class="fa-solid fa-play" style="color:#fff;font-size:2em;margin-left:6px"></i>
+          </div>
+          <div style="position:absolute;bottom:20px;color:rgba(255,255,255,0.7);font-size:0.85em;font-weight:600">اضغط للتشغيل</div>
+        </div>
+        <!-- Step 2: iframe (loaded only after click) -->
         <iframe id="ytPlayer" src="" allowfullscreen title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
       </div>
@@ -551,23 +559,40 @@
       "I4DVR_jUk64"  // الوحدة 10
     ];
 
+    let currentVideoIndex = 0;
+
     function openPlayer(index) {
+      currentVideoIndex = index;
       const modal = document.getElementById('vidModal');
+      const thumb = document.getElementById('ytThumb');
       const player = document.getElementById('ytPlayer');
 
-      // Embed specific video directly. 
-      player.src = `https://www.youtube.com/embed/${videoIDs[index]}?autoplay=1&rel=0`;
+      // Show thumbnail instantly (super fast, no iframe loading)
+      thumb.style.backgroundImage = `url(https://img.youtube.com/vi/${videoIDs[index]}/hqdefault.jpg)`;
+      thumb.style.display = 'flex';
+      player.src = ''; // Don't load iframe yet
 
       modal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Stop background scrolling
+      document.body.style.overflow = 'hidden';
+    }
+
+    function activatePlayer() {
+      // User clicked play -> NOW load the iframe
+      const thumb = document.getElementById('ytThumb');
+      const player = document.getElementById('ytPlayer');
+
+      thumb.style.display = 'none';
+      player.src = `https://www.youtube.com/embed/${videoIDs[currentVideoIndex]}?autoplay=1&rel=0`;
     }
 
     function closePlayer() {
       const modal = document.getElementById('vidModal');
       const player = document.getElementById('ytPlayer');
+      const thumb = document.getElementById('ytThumb');
 
       modal.classList.remove('active');
-      player.src = ''; // Stop video playback
+      player.src = '';
+      thumb.style.display = 'flex';
       document.body.style.overflow = '';
     }
 
