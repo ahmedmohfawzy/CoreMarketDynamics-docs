@@ -53,6 +53,20 @@ nav.scrolled{padding:10px 40px;box-shadow:0 4px 30px rgba(0,0,0,.3)}
   transition:all .3s;border:none;cursor:pointer}
 .nav-cta:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,230,118,.3)}
 
+/* ══ DROPDOWN ══ */
+.nav-dropdown { position: relative; display: inline-flex; align-items: center; cursor: pointer; padding: 4px 0; }
+.nav-dropdown-content { 
+  display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  background: rgba(17,24,39,0.95); backdrop-filter: blur(12px); min-width: 170px; 
+  border-radius: 12px; border: 1px solid var(--border); padding: 8px; z-index: 200; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.nav-dropdown:hover .nav-dropdown-content { display: block; animation: tabFadeIn 0.3s ease; }
+.nav-dropdown-content a { color: var(--text); padding: 10px 14px; text-decoration: none; display: flex; align-items: center; gap: 10px; border-radius: 8px; font-weight: 600; margin-bottom: 2px; }
+.nav-dropdown-content a::after { display: none; }
+.nav-dropdown-content a:hover { background: rgba(129,140,248,0.1); color: var(--accent); }
+.nav-dropdown-content a.soon { opacity: 0.6; cursor: not-allowed; }
+.nav-dropdown-content a.soon:hover { background: transparent; color: var(--muted); }
+
 /* ══ HERO ══ */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
   position:relative;z-index:1;padding:120px 40px 80px;overflow:hidden}
@@ -201,8 +215,21 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
     <a href="#scoring">Scoring</a>
     <a href="#scanner">Scanner</a>
     <a href="#portfolio">Portfolio</a>
+    <div class="nav-dropdown">
+      <span style="color:var(--accent);font-weight:700;font-size:.88em"><i class="fa-solid fa-play"></i> Video Library <i class="fa-solid fa-chevron-down" style="font-size:.8em;margin-left:4px"></i></span>
+      <div class="nav-dropdown-content">
+        <a href="CMD_Masterclass_AR.html">🇪🇬 Arabic (AR)</a>
+        <a href="#" class="soon" onclick="event.preventDefault()">🇬🇧 English <span style="font-size:0.7em;background:var(--card-solid);padding:2px 6px;border-radius:4px;margin-left:auto;border:1px solid var(--border)">Soon</span></a>
+      </div>
+    </div>
     <a href="#developer">Developer</a>
-    <a href="CMD_V1_Guide_EN.html" class="nav-cta">📖 Full Guide</a>
+    <div class="nav-dropdown">
+      <div class="nav-cta" style="display:inline-flex;align-items:center;gap:6px">📖 Full Guide <i class="fa-solid fa-chevron-down" style="font-size:.8em"></i></div>
+      <div class="nav-dropdown-content" style="right:0;left:auto;transform:none">
+        <a href="CMD_V1_Guide_EN.html">🇬🇧 English Guide</a>
+        <a href="CMD_V1_Guide_AR.html">🇪🇬 الدليل العربي</a>
+      </div>
+    </div>
   </div>
 </nav>
 
