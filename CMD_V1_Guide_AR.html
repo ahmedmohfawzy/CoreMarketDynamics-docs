@@ -138,6 +138,16 @@ strong{color:var(--green)} code{background:rgba(129,140,248,.08);padding:2px 8px
 .btt.show{opacity:1;transform:translateY(0)}
 .btt:hover{background:rgba(52,211,153,.15);border-color:var(--green);transform:translateY(-4px)}
 
+/* ══ BACK TO HOME ══ */
+.btn-home{position:fixed;bottom:28px;left:86px;height:48px;border-radius:24px;
+  background:var(--card);backdrop-filter:blur(14px);border:1px solid var(--border);
+  color:var(--green);font-size:.85em;font-weight:700;cursor:pointer;z-index:200;
+  padding:0 20px;display:flex;align-items:center;gap:8px;text-decoration:none;
+  transition:all .4s;opacity:0;transform:translateY(20px)}
+.btn-home.show{opacity:1;transform:translateY(0)}
+.btn-home:hover{background:rgba(52,211,153,.15);border-color:var(--green);transform:translateY(-4px);
+  box-shadow:0 4px 20px rgba(52,211,153,.2)}
+
 /* ══ TABS ══ */
 .tabs{display:flex;gap:4px;flex-wrap:wrap}
 .tab-btn{padding:10px 20px;border:1px solid var(--border);background:var(--card-solid);color:var(--muted);
@@ -204,9 +214,11 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 
 <div class="progress" id="prog"></div>
 <button class="btt no-print" id="btt"><i class="fa-solid fa-arrow-up"></i></button>
+<a href="index.html" class="btn-home no-print" id="btnHome"><i class="fa-solid fa-house"></i> الرئيسية</a>
 
 <!-- ═══ SIDEBAR ═══ -->
 <nav class="sidebar" id="sidebar">
+  <a href="index.html" style="display:flex;align-items:center;gap:8px;padding:10px 14px;margin-bottom:14px;border-radius:10px;text-decoration:none;font-size:.85em;font-weight:700;color:var(--bg);background:linear-gradient(135deg,var(--green),#10b981);transition:all .3s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(52,211,153,.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''"><i class="fa-solid fa-house"></i> الصفحة الرئيسية</a>
   <h3><i class="fa-solid fa-book-open"></i> فهرس المحتويات</h3>
   <a href="#overview" data-s="overview"><i class="fa-solid fa-eye"></i> 1. نظرة عامة</a>
   <a href="#signals" data-s="signals"><i class="fa-solid fa-chart-line"></i> 2. علامات الشارت</a>
@@ -224,10 +236,11 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   <a href="#orderflow" data-s="orderflow"><i class="fa-solid fa-arrow-right-arrow-left"></i> 13. تدفق الأوامر</a>
   <a href="#zones" data-s="zones"><i class="fa-solid fa-layer-group"></i> 14. المناطق</a>
   <a href="#scanner" data-s="scanner"><i class="fa-solid fa-satellite-dish"></i> 15. السكانر</a>
-  <a href="#scenarios" data-s="scenarios"><i class="fa-solid fa-book-open"></i> 16. سيناريوهات</a>
-  <a href="#tips" data-s="tips"><i class="fa-solid fa-lightbulb"></i> 17. نصائح ذهبية</a>
-  <a href="#rules" data-s="rules"><i class="fa-solid fa-gavel"></i> 18. القواعد الذهبية</a>
-  <a href="#settings" data-s="settings"><i class="fa-solid fa-sliders"></i> 19. مرجع الإعدادات</a>
+  <a href="#portfolio" data-s="portfolio"><i class="fa-solid fa-briefcase"></i> 16. أداة المحفظة</a>
+  <a href="#scenarios" data-s="scenarios"><i class="fa-solid fa-book-open"></i> 17. سيناريوهات</a>
+  <a href="#tips" data-s="tips"><i class="fa-solid fa-lightbulb"></i> 18. نصائح ذهبية</a>
+  <a href="#rules" data-s="rules"><i class="fa-solid fa-gavel"></i> 19. القواعد الذهبية</a>
+  <a href="#settings" data-s="settings"><i class="fa-solid fa-sliders"></i> 20. مرجع الإعدادات</a>
   <a href="#dev" data-s="dev"><i class="fa-solid fa-user-tie"></i> عن المطور</a>
   <div class="lang-switch">
     <a href="CMD_V1_Guide_EN.html" class="lang-btn">🇬🇧 English</a>
@@ -256,6 +269,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
     <tr><th>الملف</th><th>الوصف</th><th>الحجم</th></tr>
     <tr><td><code>CoreMarketDynamicsV1.pine</code></td><td>المؤشر الرئيسي + إدارة المخاطر</td><td>~2460 سطر</td></tr>
     <tr><td><code>CMD_V1_Scanner.pine</code></td><td>سكانر 20 سهم</td><td>~590 سطر</td></tr>
+    <tr><td><code>CMD_PortfolioTool.html</code></td><td><a href="CMD_PortfolioTool.html" style="color:var(--accent);text-decoration:underline">أداة إدارة المحفظة</a> — أداة مستقلة</td><td>~980 سطر</td></tr>
   </table>
 </div>
 
@@ -673,9 +687,52 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
   </table>
 </div>
 
-<!-- ═══ 16. SCENARIOS ═══ -->
+<!-- ═══ 16. PORTFOLIO TOOL ═══ -->
 <div class="page-break"></div>
-<h2 id="scenarios"><i class="fa-solid fa-book-open"></i> 16. سيناريوهات التداول</h2>
+<h2 id="portfolio"><i class="fa-solid fa-briefcase"></i> 16. أداة إدارة المحفظة (Portfolio Tool)</h2>
+<p>أداة HTML مستقلة (<code>CMD_PortfolioTool.html</code>) بتحل أكبر مشكلة في Pine Script: <strong>مش بيقدر يتتبع الصفقات عبر الأسهم المختلفة</strong>. الأداة دي بتربط تحليل CMD لكل سهم بالمخاطرة الإجمالية للمحفظة.</p>
+
+<div class="card green">
+  <h3>🎯 المميزات الرئيسية</h3>
+  <table>
+    <tr><th>الميزة</th><th>الوصف</th></tr>
+    <tr><td>🌡️ <strong>خريطة الحرارة</strong></td><td>أضف الصفقات المفتوحة (الرمز، الدخول، الوقف، الأسهم) → شوف إجمالي المخاطرة كنسبة %. بيقولك القيمة اللي تحطها في <code>Open Trades Count</code> في CMD.</td></tr>
+    <tr><td>📊 <strong>حجم المركز</strong></td><td>ادخل رأس المال + ميزانية المخاطرة → يطلعلك أقصى عدد أسهم لأي صفقة.</td></tr>
+    <tr><td>🔗 <strong>ارتباط القطاعات</strong></td><td>Correlation Matrix بيعرض الارتباط بين الأسهم حسب القطاع. بيمنع التركيز الزيادة.</td></tr>
+    <tr><td>⚠️ <strong>أسوأ سيناريو</strong></td><td>بيحسب أقصى خسارة لو كل الوقفات ضربت في نفس الوقت.</td></tr>
+    <tr><td>💾 <strong>حفظ/تحميل</strong></td><td>تصدير واستيراد JSON. نسخ للحافظة بضغطة زر.</td></tr>
+  </table>
+</div>
+
+<div class="card blue">
+  <h3>🔄 إزاي بتتكامل مع CMD</h3>
+  <table>
+    <tr><th>ميزة CMD</th><th>تكامل أداة المحفظة</th></tr>
+    <tr><td>Portfolio Heat Map input (<code>Open Trades Count</code>)</td><td>الأداة بتعرض العدد بالظبط</td></tr>
+    <tr><td>Correlation Guard (لكل سهم)</td><td>الأداة بتعرض الارتباط على مستوى القطاع</td></tr>
+    <tr><td>Position Sizing (لكل سهم)</td><td>الأداة بتتحقق من إجمالي التعرض</td></tr>
+    <tr><td>Circuit Breaker (لكل سهم)</td><td>الأداة بتتتبع إجمالي المخاطرة %</td></tr>
+  </table>
+</div>
+
+<div class="card orange">
+  <h3>🚀 إزاي تستخدمها</h3>
+  <ol>
+    <li>افتح <a href="CMD_PortfolioTool.html" style="color:var(--accent)"><code>CMD_PortfolioTool.html</code></a> في المتصفح (بتشتغل بدون انترنت)</li>
+    <li>أضف كل صفقة مفتوحة: الرمز، سعر الدخول، وقف الخسارة، عدد الأسهم</li>
+    <li>راقب إجمالي Portfolio Heat % — خليه تحت 6%</li>
+    <li>انسخ عدد الصفقات المفتوحة لخانة <code>Open Trades Count</code> في CMD</li>
+    <li>قبل ما تدخل صفقة جديدة، تأكد إن إجمالي المخاطرة مش هيتعدى الحد</li>
+  </ol>
+</div>
+
+<div style="text-align:center;margin:30px 0">
+  <a href="CMD_PortfolioTool.html" class="btn-primary" style="font-size:1.05em;padding:14px 36px;border-radius:14px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--green),#10b981);color:var(--bg);font-weight:700;transition:all .3s"><i class="fa-solid fa-rocket"></i> افتح أداة المحفظة</a>
+</div>
+
+<!-- ═══ 17. SCENARIOS ═══ -->
+<div class="page-break"></div>
+<h2 id="scenarios"><i class="fa-solid fa-book-open"></i> 17. سيناريوهات التداول</h2>
 
 <div class="card green">
   <div class="scenario">
@@ -707,7 +764,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 
 <!-- ═══ 17. TIPS ═══ -->
 <div class="page-break"></div>
-<h2 id="tips"><i class="fa-solid fa-lightbulb"></i> 17. نصائح احترافية</h2>
+<h2 id="tips"><i class="fa-solid fa-lightbulb"></i> 18. نصائح احترافية</h2>
 
 <div class="card green">
   <h3>🎯 أفضل فريم زمني</h3>
@@ -728,7 +785,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 </div>
 
 <!-- ═══ 18. RULES ═══ -->
-<h2 id="rules"><i class="fa-solid fa-gavel"></i> 18. القواعد الذهبية</h2>
+<h2 id="rules"><i class="fa-solid fa-gavel"></i> 19. القواعد الذهبية</h2>
 <div class="rules">
   <div class="rule">ادخل فقط على تقييم A أو A+</div>
   <div class="rule">تأكد من التقاطع ≥ الحد الديناميكي</div>
@@ -744,7 +801,7 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 
 <!-- ═══ 19. SETTINGS ═══ -->
 <div class="page-break"></div>
-<h2 id="settings"><i class="fa-solid fa-sliders"></i> 19. مرجع الإعدادات</h2>
+<h2 id="settings"><i class="fa-solid fa-sliders"></i> 20. مرجع الإعدادات</h2>
 <p>كل الإعدادات المتاحة في TradingView. الافتراضيات مضبوطة للبورصة المصرية على فريم الساعة.</p>
 
 <div class="card green">
@@ -856,9 +913,9 @@ document.addEventListener('cut',e=>e.preventDefault());
 (function(){const b=document.getElementById('prog');
   window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-innerHeight;b.style.width=(h>0?scrollY/h*100:0)+'%'},{passive:true})
 })();
-// Back to top
-(function(){const b=document.getElementById('btt');
-  window.addEventListener('scroll',()=>b.classList.toggle('show',scrollY>400),{passive:true});
+// Back to top + Home button
+(function(){const b=document.getElementById('btt'),h=document.getElementById('btnHome');
+  window.addEventListener('scroll',()=>{const s=scrollY>400;b.classList.toggle('show',s);h.classList.toggle('show',s)},{passive:true});
   b.onclick=()=>scrollTo({top:0,behavior:'smooth'})
 })();
 // Tab System

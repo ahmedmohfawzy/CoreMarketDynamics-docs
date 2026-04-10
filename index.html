@@ -200,6 +200,7 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
     <a href="#features">Features</a>
     <a href="#scoring">Scoring</a>
     <a href="#scanner">Scanner</a>
+    <a href="#portfolio">Portfolio</a>
     <a href="#developer">Developer</a>
     <a href="CMD_V1_Guide_EN.html" class="nav-cta">📖 Full Guide</a>
   </div>
@@ -226,6 +227,7 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
   <div class="stat"><div class="stat-num">20</div><div class="stat-label">Stocks Scanned</div></div>
   <div class="stat"><div class="stat-num">2400+</div><div class="stat-label">Lines of Code</div></div>
   <div class="stat"><div class="stat-num">4</div><div class="stat-label">Market Regimes</div></div>
+  <div class="stat"><div class="stat-num">1</div><div class="stat-label">Portfolio Tool</div></div>
 </div>
 
 <!-- ═══ FEATURES ═══ -->
@@ -264,6 +266,11 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
         <div class="feature-icon fi-red"><i class="fa-solid fa-shield-halved"></i></div>
         <h3>Risk Manager V1</h3>
         <p>Dynamic ATR-based Stop Loss, 3 Take Profit targets, regime-adjusted position sizing, and built-in gap-down protection for the Egyptian market.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-orange"><i class="fa-solid fa-briefcase"></i></div>
+        <h3>★ Portfolio Risk Tool</h3>
+        <p>Standalone HTML companion tool for multi-stock portfolio heat tracking, sector correlation matrix, position sizing calculator, and real-time worst-case scenario analysis. Works offline — no server needed.</p>
       </div>
       <div class="feature reveal">
         <div class="feature-icon fi-green"><i class="fa-solid fa-shield-heart"></i></div>
@@ -319,6 +326,40 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
   </div>
 </section>
 
+<!-- ═══ PORTFOLIO TOOL ═══ -->
+<section id="portfolio" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-badge badge-accent"><i class="fa-solid fa-briefcase"></i> Companion Tool</div>
+    <h2 class="section-title">Portfolio Risk Manager</h2>
+    <p class="section-sub">A standalone HTML tool that solves Pine Script's limitation of not tracking positions across multiple stocks — bridging the gap between CMD's per-stock analysis and your total portfolio risk.</p>
+    <div class="features" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+      <div class="feature reveal">
+        <div class="feature-icon fi-green"><i class="fa-solid fa-fire"></i></div>
+        <h3>Portfolio Heat Map</h3>
+        <p>Add all open trades with entry price, stop loss, and shares. See your total portfolio risk as a visual gauge — matches CMD's built-in "Open Trades Count" input.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-blue"><i class="fa-solid fa-calculator"></i></div>
+        <h3>Auto Position Sizing</h3>
+        <p>Enter your capital and risk budget → get the exact maximum shares for any trade. Integrates with CMD's ATR-based stop loss for precise calculations.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-accent"><i class="fa-solid fa-chart-pie"></i></div>
+        <h3>Sector Correlation Matrix</h3>
+        <p>Visualizes correlation between EGX stocks by sector. Prevents overexposure to the same market direction — complements CMD's Correlation Guard.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon fi-orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h3>Worst-Case Analysis</h3>
+        <p>Calculates the maximum portfolio drawdown if all stops hit simultaneously. JSON import/export for data persistence. Copy-to-clipboard for quick sharing.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="CMD_PortfolioTool.html" class="btn-primary" style="font-size:1.1em;padding:16px 40px"><i class="fa-solid fa-rocket"></i> Open Portfolio Tool</a>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ DEVELOPER ═══ -->
 <section id="developer" class="dev-section">
   <div class="section-inner">
@@ -347,6 +388,7 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
     <div class="hero-ctas">
       <a href="CMD_V1_Guide_EN.html" class="btn-primary"><i class="fa-solid fa-rocket"></i> English Guide</a>
       <a href="CMD_V1_Guide_AR.html" class="btn-secondary"><i class="fa-solid fa-book-open"></i> الدليل بالعربي</a>
+      <a href="CMD_PortfolioTool.html" class="btn-secondary"><i class="fa-solid fa-briefcase"></i> Portfolio Tool</a>
     </div>
   </div>
 </section>
