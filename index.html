@@ -67,6 +67,29 @@ nav.scrolled{padding:10px 40px;box-shadow:0 4px 30px rgba(0,0,0,.3)}
 .nav-dropdown-content a.soon { opacity: 0.6; cursor: not-allowed; }
 .nav-dropdown-content a.soon:hover { background: transparent; color: var(--muted); }
 
+/* ══ HAMBURGER ══ */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;z-index:300}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);margin:6px 0;border-radius:2px;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* ══ MOBILE MENU ══ */
+.mobile-menu{position:fixed;inset:0;background:rgba(10,15,30,0.97);backdrop-filter:blur(20px);z-index:250;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  opacity:0;pointer-events:none;transition:opacity .3s ease}
+.mobile-menu.active{opacity:1;pointer-events:all}
+.mobile-menu a{color:var(--text);text-decoration:none;font-size:1.2em;font-weight:600;
+  padding:14px 40px;border-radius:12px;transition:all .3s;width:280px;text-align:center;
+  border:1px solid var(--border)}
+.mobile-menu a:hover,.mobile-menu a:active{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.mobile-menu .mob-section-title{color:var(--muted);font-size:.75em;font-weight:700;text-transform:uppercase;
+  letter-spacing:2px;margin-top:16px;margin-bottom:-4px}
+.mobile-menu .mob-cta{background:linear-gradient(135deg,var(--green),#10b981);color:var(--bg);
+  border:none;font-weight:800;font-size:1.1em}
+.mobile-menu .mob-accent{border-color:var(--accent);color:var(--accent)}
+.mobile-menu .mob-soon{opacity:0.4;pointer-events:none}
+
 /* ══ HERO ══ */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
   position:relative;z-index:1;padding:120px 40px 80px;overflow:hidden}
@@ -189,13 +212,18 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
 @media(max-width:768px){
   nav{padding:12px 20px}
   .nav-links{display:none}
+  .hamburger{display:block}
   .hero{padding:100px 20px 60px}
+  .hero h1{font-size:2em}
+  .hero-sub{font-size:.95em}
+  .hero-ctas{flex-direction:column;align-items:center;gap:12px}
   .stats{flex-wrap:wrap;gap:30px;padding:30px 20px}
   section{padding:60px 20px}
   .features{grid-template-columns:1fr}
   .dev-card{flex-direction:column;text-align:center}
   .dev-links{justify-content:center}
   .score-grid{grid-template-columns:1fr}
+  .cta-title{font-size:1.8em}
 }
 @media print{body::before{content:'⛔ Printing is disabled';display:flex;align-items:center;justify-content:center;
   position:fixed;inset:0;background:#fff;color:#000;font-size:2em;font-weight:900;z-index:99999}
@@ -231,7 +259,26 @@ footer .warn{font-size:.75em;color:#787b86;max-width:700px;margin:12px auto 0;li
       </div>
     </div>
   </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- ═══ MOBILE MENU ═══ -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mob-section-title">Navigate</div>
+  <a href="#features" onclick="closeMobileMenu()">⚡ Features</a>
+  <a href="#scoring" onclick="closeMobileMenu()">📊 Scoring</a>
+  <a href="#scanner" onclick="closeMobileMenu()">🎯 Scanner</a>
+  <a href="#portfolio" onclick="closeMobileMenu()">💼 Portfolio</a>
+  <a href="#developer" onclick="closeMobileMenu()">👨‍💻 Developer</a>
+  <div class="mob-section-title">Video Library</div>
+  <a href="CMD_Masterclass_AR.html" class="mob-accent">🇪🇬 Arabic (AR)</a>
+  <a href="#" class="mob-soon">🇬🇧 English (Soon)</a>
+  <div class="mob-section-title">Full Guide</div>
+  <a href="CMD_V1_Guide_EN.html" class="mob-cta">🇬🇧 English Guide</a>
+  <a href="CMD_V1_Guide_AR.html" class="mob-cta" style="background:var(--accent)">🇪🇬 الدليل العربي</a>
+</div>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
@@ -452,6 +499,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
   });
 });
+
+// Mobile Menu
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburger');
+  menu.classList.toggle('active');
+  btn.classList.toggle('active');
+  document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('active');
+  document.getElementById('hamburger').classList.remove('active');
+  document.body.style.overflow = '';
+}
 </script>
 </body>
 </html>
