@@ -610,7 +610,7 @@
     // Exact Video IDs from the YouTube Playlist
     const videoIDs = [
       "5s8pXIv6T4M", // Unit 1
-      "", // Unit 2
+      "",            // Unit 2 (Coming Soon)
       "YlGKgPCIEcg", // Unit 3
       "tsIN6dl2hYc", // Unit 4
       "XUXljwSrgcs", // Unit 5
@@ -618,19 +618,21 @@
       "Vi9xdzwdhg8", // Unit 7
       "U88nmFXk70E", // Unit 8
       "GAxodAU4ReE", // Unit 9
-      "vZ8FTDRTI2s", // Unit 10
+      "vZ8FTDRTI2s"  // Unit 10
     ];
 
     let currentVideoIndex = 0;
 
     function openPlayer(index) {
-      if (!videoIDs[index]) return;
+      // If index is 1 (Unit 2), it's not available yet
+      if (index === 1 || !videoIDs[index]) return;
+      
       currentVideoIndex = index;
       const modal = document.getElementById('vidModal');
       const thumb = document.getElementById('ytThumb');
       const player = document.getElementById('ytPlayer');
 
-      // Show thumbnail instantly (super fast, no iframe loading)
+      // Show thumbnail instantly
       thumb.style.backgroundImage = `url(https://img.youtube.com/vi/${videoIDs[index]}/hqdefault.jpg)`;
       thumb.style.display = 'flex';
       player.src = ''; // Don't load iframe yet
@@ -640,7 +642,6 @@
     }
 
     function activatePlayer() {
-      // User clicked play -> NOW load the iframe
       const thumb = document.getElementById('ytThumb');
       const player = document.getElementById('ytPlayer');
 
