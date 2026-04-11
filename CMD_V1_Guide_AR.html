@@ -212,6 +212,26 @@ body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-se
 </head>
 <body>
 
+<!-- ═══ EDUCATIONAL BANNER ═══ -->
+<style>
+  :root { --banner-h: 36px; }
+  body { padding-top: var(--banner-h) !important; }
+  nav { top: var(--banner-h) !important; }
+  .sidebar { top: var(--banner-h) !important; height: calc(100vh - var(--banner-h)) !important; }
+  .sidebar-toggle { top: calc(16px + var(--banner-h)) !important; }
+  .edu-banner-top {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--banner-h);
+    background: linear-gradient(90deg, #1e3a8a, #2563eb);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 600; z-index: 2147483647;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4); font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+</style>
+<div class="edu-banner-top">
+  🎓 <b style="margin:0 6px">Educational Project:</b> AI Project Management Demo <span style="opacity:0.5;margin:0 12px">|</span> مشروع تعليمي تطبيقي: إدارة مشروعات الذكاء الاصطناعي
+</div>
+
+
 <div class="progress" id="prog"></div>
 <button class="btt no-print" id="btt"><i class="fa-solid fa-arrow-up"></i></button>
 <a href="index.html" class="btn-home no-print" id="btnHome"><i class="fa-solid fa-house"></i> الرئيسية</a>
