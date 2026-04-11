@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMD Video Library — Visual Guide</title>
+  <meta name="description" content="Video guide library for Core Market Dynamics system">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous">
+  <style>
+    :root {
+      --bg: #0b1120;
+      --card: rgba(17, 24, 39, 0.7);
+      --card-solid: #111827;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --green: #34d399;
+      --green-dim: rgba(52, 211, 153, 0.15);
+      --accent: #818cf8;
+      --accent-dim: rgba(129, 140, 248, 0.15);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(800px at 20% 20%, rgba(52, 211, 153, .04), transparent 60%),
+        radial-gradient(600px at 80% 80%, rgba(129, 140, 248, .03), transparent 60%)
+    }
+
+    /* ══ NAV ══ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(11, 17, 32, .8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all .3s
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--green), #10b981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1em;
+      font-weight: 900;
+      color: var(--bg)
+    }
+
+    .logo-text {
+      font-size: 1.1em;
+      font-weight: 800;
+      color: var(--text);
+      font-family: 'Inter', sans-serif
+    }
+
+    .logo-text span {
+      color: var(--green)
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      align-items: center
+    }
+
+    .nav-btn {
+      padding: 8px 22px;
+      border-radius: 10px;
+      font-size: .85em;
+      font-weight: 700;
+      text-decoration: none;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      transition: all .3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .nav-btn:hover {
+      background: var(--card-solid);
+      border-color: var(--green)
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green), #10b981);
+      color: var(--bg);
+      border: none
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(52, 211, 153, .3)
+    }
+
+    /* ══ HERO ══ */
+    .hero {
+      padding: 120px 40px 60px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: .85em;
+      font-weight: 700;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(129, 140, 248, .3);
+      margin-bottom: 24px
+    }
+
+    .hero h1 {
+      font-size: 3em;
+      font-weight: 900;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--green), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hero p {
+      font-size: 1.1em;
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0 auto
+    }
+
+    /* ══ GRID ══ */
+    .container {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 100px;
+      position: relative;
+      z-index: 1;
+      width: 100%
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      transition: all .4s ease;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--green);
+      box-shadow: 0 10px 40px rgba(52, 211, 153, .1)
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green), var(--accent));
+      opacity: 0;
+      transition: opacity .4s
+    }
+
+    .card:hover::before {
+      opacity: 1
+    }
+
+    .unit-badge {
+      background: var(--card-solid);
+      color: var(--green);
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: .8em;
+      font-weight: 800;
+      border: 1px solid var(--border);
+      align-self: flex-start;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .card h3 {
+      font-size: 1.25em;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text);
+      flex: 1
+    }
+
+    .card p {
+      font-size: .9em;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.6
+    }
+
+    .play-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--green-dim);
+      color: var(--green);
+      border: 1px solid rgba(52, 211, 153, .3);
+      font-size: .95em;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all .3s
+    }
+
+    .card:hover .play-btn {
+      background: var(--green);
+      color: var(--bg)
+    }
+
+    .play-btn i {
+      font-size: 1.1em
+    }
+
+    /* ══ MODAL ══ */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .85);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: all
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 1000px;
+      background: var(--bg);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform .3s;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .5)
+    }
+
+    .modal.active .modal-content {
+      transform: scale(1)
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .1);
+      color: #fff;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all .2s;
+      backdrop-filter: blur(4px)
+    }
+
+    .close-btn:hover {
+      background: var(--red);
+      transform: rotate(90deg)
+    }
+
+    .ratio-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%
+    }
+
+    /* 16:9 Aspect Ratio */
+    .ratio-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media(max-width:768px) {
+      nav {
+        padding: 12px 16px
+      }
+
+      .logo-text {
+        font-size: 0.9em
+      }
+
+      .nav-links {
+        gap: 8px
+      }
+
+      .nav-links span {
+        display: none
+      }
+
+      .nav-btn {
+        padding: 8px 14px;
+        font-size: .8em
+      }
+
+      .hero {
+        padding: 90px 20px 30px
+      }
+
+      .hero h1 {
+        font-size: 1.8em
+      }
+
+      .hero p {
+        font-size: 0.95em
+      }
+
+      .container {
+        padding: 0 16px 60px
+      }
+
+      .grid {
+        grid-template-columns: 1fr
+      }
+
+      .card {
+        padding: 20px
+      }
+
+      .modal-content {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        border: none
+      }
+
+      .ratio-wrapper {
+        padding-top: 0;
+        height: 100vh
+      }
+
+      .close-btn {
+        top: 20px;
+        left: 20px;
+        background: var(--red)
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══ EDUCATIONAL BANNER ═══ -->
+<style>
+  :root { --banner-h: 36px; }
+  body { padding-top: var(--banner-h) !important; }
+  nav { top: var(--banner-h) !important; }
+  .sidebar { top: var(--banner-h) !important; height: calc(100vh - var(--banner-h)) !important; }
+  .sidebar-toggle { top: calc(16px + var(--banner-h)) !important; }
+  .edu-banner-top {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--banner-h);
+    background: linear-gradient(90deg, #1e3a8a, #2563eb);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 600; z-index: 2147483647;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4); font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+</style>
+<div class="edu-banner-top">
+  🚀 <b style="margin:0 6px">Applied Case Study:</b> AI-Driven Project Management <span style="opacity:0.5;margin:0 12px">|</span> دراسة حالة عملية: إدارة مشروعات الذكاء الاصطناعي
+</div>
+
+
+  <!-- ═══ NAV ═══ -->
+  <nav>
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-microchip"></i></div>
+      <div class="logo-text" style="font-family:'Cairo',sans-serif;font-weight:900">CMD <span>Library</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+      <a href="CMD_V1_Guide_EN.html" class="nav-btn btn-primary"><i class="fa-solid fa-book-open"></i> <span>Guide
+          المقروء</span></a>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-badge"><i class="fa-solid fa-play"></i> Video Library</div>
+    <h1>Video & Audio Masterclass</h1>
+    <p>شاهد واستمع للدليل الإرشادي الكامل لمنظومة Core Market Dynamics مقسماً على 10 فيديوهات تغطي كل زوايا النظام
+      باحترافية.</p>
+  </section>
+
+  <!-- ═══ GRID ═══ -->
+  <div class="container">
+    <div class="grid">
+
+      <!-- Unit 1 -->
+      <div class="card" onclick="openPlayer(0)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 1</div>
+        <h3>Core Market Dynamics Philosophy</h3>
+        <p>System philosophy, eliminating noise, and the difference between Core and Bonus scores.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div>
+
+      <!-- Unit 2 -->
+      <div class="card" onclick="openPlayer(1)" style="opacity: 0.8;">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 2</div>
+        <h3>Price Action & Structure Deep-Dive</h3>
+        <p>Analyzing internal and external market structure with moving average alignments.</p>
+        <button class="play-btn" style="background:var(--card-solid);color:var(--muted);cursor:not-allowed;border-color:var(--border)"><i class="fa-solid fa-clock"></i> Coming Soon</button>
+      </div>
+
+      <!-- Unit 3 -->
+      <div class="card" onclick="openPlayer(2)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 3</div>
+        <h3>Secrets of Volume & Wyckoff</h3>
+        <p>Mastering effort vs result to detect institutional absorption and distribution traps.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div>
+
+      <!-- Unit 4 -->
+      <div class="card" onclick="openPlayer(3)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 4</div>
+        <h3>The Volatility Squeeze</h3>
+        <p>Anticipating explosive price movements using Bollinger Bands inside Keltner Channels.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div>
+
+      <!-- Unit 5 -->
+      <div class="card" onclick="openPlayer(4)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 5</div>
+        <h3>Tracking Market Makers</h3>
+        <p>Using virtual order flow and wick analysis to find institutional supply and demand zones.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div>
+
+      <!-- Unit 6 -->
+      <div class="card" onclick="openPlayer(5)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 6</div>
+        <h3>EGX Timing & Pricing</h3>
+        <p>Understanding EGX session dynamics, auctions, and false traps for optimal entry timing.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div>
+
+      <!-- Unit 7 -->
+      <div class="card" onclick="openPlayer(6)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 7</div>
+        <h3>Dynamic Confluence</h3>
+        <p>How the system determines market regimes and dynamically adjusts entry filters.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div>
+
+      <!-- Unit 8 -->
+      <div class="card" onclick="openPlayer(7)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 8</div>
+        <h3>The Command Center</h3>
+        <p>Mastering the 20-symbol scanner to track the entire market simultaneously.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div>
+
+      <!-- Unit 9 -->
+      <div class="card" onclick="openPlayer(8)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 9</div>
+        <h3>Hit Rate & Expectancy R</h3>
+        <p>Measuring system performance, tracking win rates, and analyzing your trading edge.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div>
+
+      <!-- Unit 10 -->
+      <div class="card" onclick="openPlayer(9)">
+        <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 10</div>
+        <h3>Portfolio & Risk Mitigation</h3>
+        <p>Protecting capital using the Portfolio Tool, circuit breakers, and emergency strategies.</p>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
+      </div></div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer style="padding:0;border-top:1px solid var(--border);background:var(--bg);position:relative;z-index:1;margin-top:40px">
+    <div style="max-width:1000px;margin:0 auto;padding:40px 40px 24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><i class="fa-solid fa-microchip" style="color:var(--green);font-size:1.2em"></i> <strong style="color:var(--green);font-size:1.1em">Core Market Dynamics V1</strong></div>
+          <p style="color:var(--muted);font-size:.82em">The smartest algorithmic trading system on TradingView.</p>
+        </div>
+        <div style="display:flex;gap:12px">
+          <a href="mailto:Ahmed.m.fawzy@hotmail.com" style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:.9em" title="Email"><i class="fa-solid fa-envelope"></i></a>
+          <a href="https://www.linkedin.com/in/ahmed-m-fawzy" target="_blank" style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;font-size:.9em" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--border);margin:16px 0"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <span style="color:var(--muted);font-size:.8em">© 2026 Ahmed Mohammed Fawzy. All Rights Reserved.</span>
+        <div style="display:flex;gap:16px;font-size:.82em">
+          <a href="index.html" style="color:var(--muted);text-decoration:none">🏠 Home</a>
+          <a href="CMD_V1_Guide_AR.html" style="color:var(--muted);text-decoration:none">📖 الدليل العربي</a>
+          <a href="CMD_V1_Guide_AR.html" style="color:var(--muted);text-decoration:none">📖 الدليل العربي</a>
+        </div>
+      </div>
+      <p style="color:#787b86;font-size:.72em;text-align:center;line-height:1.6;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)"><i class="fa-solid fa-triangle-exclamation" style="color:#fbbf24"></i> <strong>Disclaimer:</strong> Trading involves significant risk. This tool does not constitute financial advice. Always manage your own risk.</p>
+    </div>
+  </footer>
+
+  <!-- ═══ MODAL ═══ -->
+  <div class="modal" id="vidModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closePlayer()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="ratio-wrapper">
+        <!-- Step 1: Lightweight thumbnail (loads instantly) -->
+        <div id="ytThumb" style="position:absolute;inset:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#000;background-size:cover;background-position:center;z-index:5" onclick="activatePlayer()">
+          <div style="width:80px;height:80px;background:rgba(255,0,0,0.85);border-radius:20px;display:flex;align-items:center;justify-content:center;transition:transform .3s,background .3s">
+            <i class="fa-solid fa-play" style="color:#fff;font-size:2em;margin-left:6px"></i>
+          </div>
+          <div style="position:absolute;bottom:20px;color:rgba(255,255,255,0.7);font-size:0.85em;font-weight:600">Click to Play</div>
+        </div>
+        <!-- Step 2: iframe (loaded only after click) -->
+        <iframe id="ytPlayer" src="" allowfullscreen title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Exact Video IDs from the YouTube Playlist
+    const videoIDs = [
+      "5s8pXIv6T4M", // Unit 1
+      "", // Unit 2
+      "YlGKgPCIEcg", // Unit 3
+      "tsIN6dl2hYc", // Unit 4
+      "XUXljwSrgcs", // Unit 5
+      "oy9M_0GtE7M", // Unit 6
+      "Vi9xdzwdhg8", // Unit 7
+      "U88nmFXk70E", // Unit 8
+      "GAxodAU4ReE", // Unit 9
+      "vZ8FTDRTI2s", // Unit 10
+    ];
+
+    let currentVideoIndex = 0;
+
+    function openPlayer(index) {
+      if (!videoIDs[index]) return;function openPlayer(index) {
+      currentVideoIndex = index;
+      const modal = document.getElementById('vidModal');
+      const thumb = document.getElementById('ytThumb');
+      const player = document.getElementById('ytPlayer');
+
+      // Show thumbnail instantly (super fast, no iframe loading)
+      thumb.style.backgroundImage = `url(https://img.youtube.com/vi/${videoIDs[index]}/hqdefault.jpg)`;
+      thumb.style.display = 'flex';
+      player.src = ''; // Don't load iframe yet
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function activatePlayer() {
+      // User clicked play -> NOW load the iframe
+      const thumb = document.getElementById('ytThumb');
+      const player = document.getElementById('ytPlayer');
+
+      thumb.style.display = 'none';
+      player.src = `https://www.youtube.com/embed/${videoIDs[currentVideoIndex]}?autoplay=1&rel=0`;
+    }
+
+    function closePlayer() {
+      const modal = document.getElementById('vidModal');
+      const player = document.getElementById('ytPlayer');
+      const thumb = document.getElementById('ytThumb');
+
+      modal.classList.remove('active');
+      player.src = '';
+      thumb.style.display = 'flex';
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on outside click or ESC key
+    document.getElementById('vidModal').addEventListener('click', function (e) {
+      if (e.target === this) closePlayer();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.getElementById('vidModal').classList.contains('active')) {
+        closePlayer();
+      }
+    });
+
+    // Anti-copy + Anti-print
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && ['p', 'P', 'c', 'C', 'u', 'U', 's', 'S'].includes(e.key)) { e.preventDefault(); return false } });
+    document.addEventListener('copy', e => e.preventDefault());
+  </script>
+
+</body>
+
+</html>
