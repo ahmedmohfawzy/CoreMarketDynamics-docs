@@ -95,6 +95,25 @@ nav.scrolled{padding:10px 40px;box-shadow:0 4px 30px rgba(0,0,0,.3)}
   transition:all .3s;z-index:10}
 .mobile-close:hover{background:var(--red);border-color:var(--red);transform:rotate(90deg)}
 
+/* ══ INTRO MODAL ══ */
+.intro-modal-overlay{position:fixed;inset:0;z-index:9999;
+  background:rgba(10,15,30,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .5s ease}
+.intro-modal-overlay.active{opacity:1;pointer-events:all}
+.intro-modal-content{position:relative;width:90%;max-width:900px;aspect-ratio:16/9;
+  background:#000;border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6),0 0 0 1px var(--border);
+  transform:scale(0.95) translateY(20px);transition:transform .5s ease}
+.intro-modal-overlay.active .intro-modal-content{transform:scale(1) translateY(0)}
+.intro-modal-content iframe{width:100%;height:100%;border:none}
+.intro-modal-close{position:absolute;top:30px;right:40px;width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,0.08);border:1px solid var(--border);color:var(--text);
+  font-size:1.4em;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .3s;z-index:10}
+.intro-modal-close:hover{background:var(--red);border-color:var(--red);transform:rotate(90deg)}
+@media(max-width:768px){.intro-modal-close{top:20px;right:20px}}
+
 /* ══ HERO ══ */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
   position:relative;z-index:1;padding:120px 40px 80px;overflow:hidden}
@@ -259,6 +278,14 @@ footer{padding:0;border-top:1px solid var(--border);background:var(--bg);positio
 </style>
 </head>
 <body>
+
+<!-- ═══ INTRO VIDEO MODAL ═══ -->
+<div class="intro-modal-overlay" id="introModal">
+  <button class="intro-modal-close" onclick="closeIntroModal()"><i class="fa-solid fa-xmark"></i></button>
+  <div class="intro-modal-content">
+    <iframe id="introVideoIframe" src="https://www.youtube.com/embed/E7vrMfoO1T0?autoplay=1&rel=0&modestbranding=1" title="Core Market Dynamics Intro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
 
 <!-- ═══ NAV ═══ -->
 <nav id="nav">
@@ -569,6 +596,33 @@ function closeMobileMenu() {
   document.getElementById('mobileMenu').classList.remove('active');
   document.getElementById('hamburger').classList.remove('active');
   document.body.style.overflow = '';
+}
+
+// Intro Video Modal Logic
+const introModal = document.getElementById('introModal');
+const introIframe = document.getElementById('introVideoIframe');
+
+window.addEventListener('load', () => {
+  // Check if intro was already seen in this session to not annoy the user on refresh
+  if (!sessionStorage.getItem('cmd_intro_seen')) {
+    setTimeout(() => {
+      introModal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevents background scrolling
+    }, 800); // 800ms delay for a smooth entrance after page load
+  }
+});
+
+function closeIntroModal() {
+  introModal.classList.remove('active');
+  document.body.style.overflow = '';
+  
+  // Stop the video from playing in the background by resetting the iframe src
+  const videoSrc = introIframe.src;
+  introIframe.src = '';
+  introIframe.src = videoSrc;
+  
+  // Mark as seen so it doesn't pop up again on refresh
+  sessionStorage.setItem('cmd_intro_seen', 'true');
 }
 </script>
 </body>
