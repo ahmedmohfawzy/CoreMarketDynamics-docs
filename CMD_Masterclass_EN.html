@@ -498,11 +498,11 @@
       </div>
 
       <!-- Unit 2 -->
-      <div class="card" onclick="openPlayer(1)" style="opacity: 0.8;">
+      <div class="card" onclick="openPlayer(1)">
         <div class="unit-badge"><i class="fa-solid fa-layer-group"></i> Unit 2</div>
         <h3>Price Action & Structure Deep-Dive</h3>
         <p>Analyzing internal and external market structure with moving average alignments.</p>
-        <button class="play-btn" style="background:var(--card-solid);color:var(--muted);cursor:not-allowed;border-color:var(--border)"><i class="fa-solid fa-clock"></i> Coming Soon</button>
+        <button class="play-btn"><i class="fa-solid fa-play"></i> Play Episode</button>
       </div>
 
       <!-- Unit 3 -->
@@ -619,7 +619,7 @@
     // Exact Video IDs from the YouTube Playlist
     const videoIDs = [
       "5s8pXIv6T4M", // Unit 1
-      "",            // Unit 2 (Coming Soon)
+      "pmsPLzsZcM4", // Unit 2
       "YlGKgPCIEcg", // Unit 3
       "tsIN6dl2hYc", // Unit 4
       "XUXljwSrgcs", // Unit 5
@@ -633,8 +633,7 @@
     let currentVideoIndex = 0;
 
     function openPlayer(index) {
-      // If index is 1 (Unit 2), it's not available yet
-      if (index === 1 || !videoIDs[index]) return;
+      if (!videoIDs[index]) return;
       
       currentVideoIndex = index;
       const modal = document.getElementById('vidModal');
